@@ -1,4 +1,4 @@
-void enableLed(int);
+void enabledLed(int);
 
 void enableMultipleLeds(uint8_t); 
 
