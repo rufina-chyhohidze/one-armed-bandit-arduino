@@ -3,7 +3,7 @@
 
 #define NUMBER_OF_LEDS 4 //Define is a "preprocessor directive". It ensures that every NUMBER_OF_LEDS will be replaced by 4 in the following code
 
-void enabled(int lednumber)//C has no classes; functions can be included directly in the .c file.
+void enabledLed(int lednumber)//C has no classes; functions can be included directly in the .c file.
 {
   if (lednumber <0 || lednumber>NUMBER_OF_LEDS-1)return;
   DDRB |=(1<<(PB2+lednumber));

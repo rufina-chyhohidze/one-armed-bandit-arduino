@@ -1,16 +1,16 @@
-void enableOneLed(int);
+void enableLed(int);
 
 void enableMultipleLeds(uint8_t); 
 
 void enableAllLeds ();
 
-void lightUpOneLed(int); 
+void lightUpLed(int); 
 
 void lightUpMultipleLeds (uint8_t);
 
 void lightUpAllLeds (); 
 
-void lightDownOneLed(int); 
+void lightDownLed(int); 
 
 void lightDownMultipleLeds (uint8_t);
 
