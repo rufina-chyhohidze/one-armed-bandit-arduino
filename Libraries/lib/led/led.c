@@ -1,5 +1,8 @@
 #include <util/delay.h>
 #include <avr/io.h>
+#define __DELAY_BACKWARD_COMPATIBLE__  
+#include <util/delay.h> 
+
 
 #define NUMBER_OF_LEDS 4 //Define is a "preprocessor directive". It ensures that every NUMBER_OF_LEDS will be replaced by 4 in the following code
 
