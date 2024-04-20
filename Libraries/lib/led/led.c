@@ -18,17 +18,49 @@ void lightDownLed ( int lednumber )
   if(lednumber<0||lednumber>3)return;
   PORTB |=(1<<(PB2+lednumber));
 }
-void enableMultipleLeds(uint8_t ledNumber) {
-  if (ledNumber < 0 || ledNumber > NUMBER_OF_LEDS - 1) return;
-  DDRB |=(1<<(PB2+ledNumber));
+#define LED_COUNT 4
+void enableMultipleLeds(uint8_t leds) {
+  for (uint8_t i = 0; i < LED_COUNT; i++) {
+    if (leds & (1 << i)) {
+      pinMode(i, OUTPUT);
+    }
+  }
 }
 
-void lightUpMultipleLeds(uint8_t ledNumber) {
-  if (ledNumber < 0 || ledNumber > NUMBER_OF_LEDS - 1) return;
-  PORTB&=~(1<<(PB2+ledNumber)); // LOW to turn on LED, HIGH to turn it off
+void lightUpMultipleLeds(uint8_t leds) {
+  for (uint8_t i = 0; i < LED_COUNT; i++) {
+    if (leds & (1 << i)) {
+      digitalWrite(i, LOW); // LOW to turn on LED, HIGH to turn it off
+    }
+  }
 }
 
-void lightDownMultipleLeds(uint8_t ledNumber) {
-  if (ledNumber < 0 || ledNumber > 3) return;
-  PORTB|=(1<<(PB2+ledNumber)); // HIGH to turn off LED, LOW to turn it on
+void lightDownMultipleLeds(uint8_t leds) {
+  for (uint8_t i = 0; i < LED_COUNT; i++) {
+    if (leds & (1 << i)) {
+      digitalWrite(i, HIGH); // HIGH to turn off LED, LOW to turn it on
+    }
+  }
+}
+
+void dimLed(int ledNumber, int percentage, int duration) {
+  if (ledNumber < 0 || ledNumber > NUMBER_OF_LEDS - 1) return;
+  int onTime = (percentage * duration) / 100;
+  int offTime = duration - onTime;
+  pinMode(ledNumber, OUTPUT);
+  
+  while (1) {
+    digitalWrite(ledNumber, LOW);
+    _delay_ms(offTime);
+    digitalWrite(ledNumber, HIGH);
+    _delay_ms(onTime);
+  }
+}
+
+void fadeInLed(int ledNumber, int duration) {
+  dimLed(ledNumber, 100, duration);
+}
+
+void fadeOutLed(int ledNumber, int duration) {
+  dimLed(ledNumber, 0, duration);
 }
