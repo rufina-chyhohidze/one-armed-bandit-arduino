@@ -18,24 +18,17 @@ void lightDownLed ( int lednumber )
   if(lednumber<0||lednumber>3)return;
   PORTB |=(1<<(PB2+lednumber));
 }
-void enableMultipleLeds(uint8_t leds){
-  for (uint8_t i =0; i<LED_COUNT;i++){
-    if (leds & (1<<i)){
-      pinMode(i,OUTPUT)
-    }
-  }
+void enableMultipleLeds(uint8_t ledNumber) {
+  if (ledNumber < 0 || ledNumber > NUMBER_OF_LEDS - 1) return;
+  pinMode(ledNumber, OUTPUT);
 }
-void lightUpMultipleLeds(uint8_t leds){
-  for (uint8_t i=0;i<LED_COUNT;i++){
-    if (leds & (1<<i)){
-      digitalWrite(i,LOW) // LOW to turn on LED, HIGH to turn it off
-    }
-  }
+
+void lightUpMultipleLeds(uint8_t ledNumber) {
+  if (ledNumber < 0 || ledNumber > NUMBER_OF_LEDS - 1) return;
+  digitalWrite(ledNumber, LOW); // LOW to turn on LED, HIGH to turn it off
 }
-void lightDownMultipleLeds(uint8_t leds){
-  for(uint8_t i=0;i<LED_COUNT;i++){
-    if (leds & (1<<i)){
-      digitalWrite(i,HIGH);// HIGH to turn off LED, LOW to turn it on
-    }
-  }
+
+void lightDownMultipleLeds(uint8_t ledNumber) {
+  if (ledNumber < 0 || ledNumber > NUMBER_OF_LEDS - 1) return;
+  digitalWrite(ledNumber, HIGH); // HIGH to turn off LED, LOW to turn it on
 }
