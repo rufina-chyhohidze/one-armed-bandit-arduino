@@ -18,3 +18,17 @@ void lightDownLed ( int lednumber )
   if(lednumber<0||lednumber>3)return;
   PORTB |=(1<<(PB2+lednumber));
 }
+void enableMultipleLeds(uint8_t ledNumber) {
+  if (ledNumber < 0 || ledNumber > NUMBER_OF_LEDS - 1) return;
+  DDRB |=(1<<(PB2+ledNumber));
+}
+
+void lightUpMultipleLeds(uint8_t ledNumber) {
+  if (ledNumber < 0 || ledNumber > NUMBER_OF_LEDS - 1) return;
+  PORTB&=~(1<<(PB2+ledNumber)); // LOW to turn on LED, HIGH to turn it off
+}
+
+void lightDownMultipleLeds(uint8_t ledNumber) {
+  if (ledNumber < 0 || ledNumber > 3) return;
+  PORTB|=(1<<(PB2+ledNumber)); // HIGH to turn off LED, LOW to turn it on
+}
