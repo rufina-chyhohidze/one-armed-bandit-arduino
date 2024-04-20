@@ -3,7 +3,7 @@
 #include <led.h> 
 
 //THIS VERSION IS NOT WORKING 
-int main()
+/*int main()
 {
     for ( int i = 0; i < 4; i++ )
     {
@@ -24,6 +24,7 @@ int main()
     }
     return 0;
 }
+*/
 /* THE FIRST WORKING VERSION WITH WAVE 
 int main()
 {
@@ -48,3 +49,26 @@ int main()
 }
 
 */
+//WORKING VERSION
+#define LED_COUNT 4
+
+int main() {
+    for (int i=0;i<4;i++){
+        enableMultipleLeds(i);
+    }
+  while (1) {
+    // Light up all LEDs for 1 second
+    for (int i=0;i<4;i++)
+    {
+    lightUpMultipleLeds(i);
+    _delay_ms(1000);
+    }
+    
+    // Turn off all LEDs for 1 second
+    for (int i=0;i<4;i++){
+    lightDownMultipleLeds(i);
+    _delay_ms(1000);
+    }
+  }
+  return 0;
+}
