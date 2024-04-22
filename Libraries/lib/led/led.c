@@ -46,24 +46,31 @@ void lightDownMultipleLeds(uint8_t leds) {
   }
 }
 
+#include <Arduino.h>  // Include Arduino core library
+
+#define NUMBER_OF_LEDS 4
+
 void dimLed(int ledNumber, int percentage, int duration) {
-  if (ledNumber < 0 || ledNumber > NUMBER_OF_LEDS - 1) return;
+  if (ledNumber < 0 || ledNumber >= NUMBER_OF_LEDS) {
+    return;  // Ensure the LED number is valid
+  }
   int onTime = (percentage * duration) / 100;
   int offTime = duration - onTime;
-  pinMode(ledNumber, OUTPUT);
-  
+
+  pinMode(ledNumber, OUTPUT);  // Set the pin mode to output
+
   while (1) {
-    digitalWrite(ledNumber, LOW);
-    _delay_ms(offTime);
-    digitalWrite(ledNumber, HIGH);
-    _delay_ms(onTime);
+    digitalWrite(ledNumber, LOW);  // LED off
+    _delay_ms(offTime);            // Delay for off time
+    digitalWrite(ledNumber, HIGH);  // LED on
+    _delay_ms(onTime);              // Delay for on time
   }
 }
 
 void fadeInLed(int ledNumber, int duration) {
-  dimLed(ledNumber, 100, duration);
+  dimLed(ledNumber, 100, duration);  // Fully on during fade-in
 }
 
 void fadeOutLed(int ledNumber, int duration) {
-  dimLed(ledNumber, 0, duration);
+  dimLed(ledNumber, 0, duration);  // Fully off during fade-out
 }
