@@ -26,6 +26,7 @@ void fadeOutLed(int ledNumber, int duration);
 
 //led chaos 
 #ifndef LED_H
+
 #define LED_H
 
 #include <Arduino.h>  // Include Arduino functions and constants
@@ -40,5 +41,6 @@ void toggleLed(int ledNumber, int delayTime);
 
 // Flash a random LED for a random duration
 void flashRandomLed();
+int rand (void)
 
 #endif
