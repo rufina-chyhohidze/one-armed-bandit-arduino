@@ -1,7 +1,6 @@
 #include <util/delay.h>
 #include <avr/io.h>
-#define __DELAY_BACKWARD_COMPATIBLE__  
-#include <Arduino.h>  
+#define __DELAY_BACKWARD_COMPATIBLE__    
 #include <stdlib.h>
 #include <led.h>
 

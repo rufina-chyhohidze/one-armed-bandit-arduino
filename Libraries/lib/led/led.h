@@ -29,8 +29,6 @@ void fadeOutLed(int ledNumber, int duration);
 
 #define LED_H
 
-#include <Arduino.h>  // Include Arduino functions and constants
-
 #define LED_COUNT 4  // Number of LEDs in your setup
 
 // Initialize the LEDs (set as OUTPUT)
