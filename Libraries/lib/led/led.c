@@ -5,7 +5,7 @@
 #include <led.h>
 
 
-/*#define NUMBER_OF_LEDS 4 //Define is a "preprocessor directive". It ensures that every NUMBER_OF_LEDS will be replaced by 4 in the following code
+#define NUMBER_OF_LEDS 4 //Define is a "preprocessor directive". It ensures that every NUMBER_OF_LEDS will be replaced by 4 in the following code
 
 void enabledLed(int lednumber)//C has no classes; functions can be included directly in the .c file.
 {
@@ -46,7 +46,7 @@ void lightDownMultipleLeds(uint8_t leds) {
     }
   }
 }
-*/
+
 
 
 //Dimmed leds
@@ -77,7 +77,7 @@ void fadeOutLed(int ledNumber, int duration) {
   dimLed(ledNumber, 0, duration);  // Fully off during fade-out
 }
 */
-
+/*
 //LED chaos
 void initLeds() {
     // Set all LEDs as OUTPUT and turn them off
@@ -107,4 +107,5 @@ void flashRandomLed() {
     delayTime = 100 + (rand() % 901);
     _delay_ms(delayTime);  // Pause before the next flash
 }
+*/
 
