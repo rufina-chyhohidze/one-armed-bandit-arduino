@@ -45,30 +45,27 @@ int main()
             _delay_ms( 100 );
         }
     }
-    return 0; //vf
+    return 0; //vfvc
 }
 
 */
 //WORKING VERSION
+
 #define LED_COUNT 4
 
 int main() {
-    for (int i=0;i<4;i++){
-        enableMultipleLeds(i);
-    }
+    
   while (1) {
     // Light up all LEDs for 1 second
     for (int i=0;i<4;i++)
     {
-    lightUpMultipleLeds(i);
-    _delay_ms(1000);
-    }
-    
-    // Turn off all LEDs for 1 second
-    for (int i=0;i<4;i++){
-    lightDownMultipleLeds(i);
-    _delay_ms(1000);
+    enabledLed(i);
+    lightUpLed(i);
+    _delay_ms(500);
+    lightDownLed(i);
+    _delay_ms(500);
     }
   }
   return 0;
 }
+

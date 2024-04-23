@@ -28,17 +28,17 @@ void lightDownLed ( int lednumber )
 }
 #define LED_COUNT 4
 void enableMultipleLeds(uint8_t leds) {
-DDRB |= (leds<<2)
+DDRB |= (leds<<2);
 }
   
 void lightUpMultipleLeds(uint8_t leds) {
-  enableMultipleLeds(leds)
-  PORTB &=~(leds<<2)
+  enableMultipleLeds(leds);
+  PORTB &=~(leds<<2);
 }
 
 void lightDownMultipleLeds(uint8_t leds) {
-  enableMultipleLeds(leds)
-  PORTB&=~(leds<<2)
+  enableMultipleLeds(leds);
+  PORTB&=~(leds<<2);
 
 }
 /*
