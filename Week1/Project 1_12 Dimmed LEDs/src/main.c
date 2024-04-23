@@ -2,19 +2,23 @@
 #include <avr/io.h>
 #include <led.h> 
 
-#define LED_PIN 13 // Change this to the pin number connected to your LED
+#define LED_COUNT 4
 
 int main() {
-  
-  
-  // Test dimming LED to 50% brightness for 3 seconds
-  dimLed(LED_PIN, 50, 3000);
-  
-  // Test fading in LED from 0% to 100% brightness over 3 seconds
-  fadeInLed(LED_PIN, 3000);
-  
-  // Test fading out LED from 100% to 0% brightness over 3 seconds
-  fadeOutLed(LED_PIN, 3000);
-  
+    
+  while (1) {
+    // Light up all LEDs for 1 second
+    for (int i=0;i<4;i++)
+    {
+    enabledLed(i);
+    lightUpLed(i);
+    _delay_ms(3);
+    lightDownLed(i);
+    _delay_ms(3);
+    }
+  }
   return 0;
 }
+
+
+

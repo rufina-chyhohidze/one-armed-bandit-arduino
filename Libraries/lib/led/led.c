@@ -1,12 +1,11 @@
 #include <util/delay.h>
 #include <avr/io.h>
-<<<<<<< HEAD
 #define __DELAY_BACKWARD_COMPATIBLE__  
-=======
+
 #define __DELAY_BACKWARD_COMPATIBLE__    
->>>>>>> 62b4337535ccb0f4aa5aa7e4d3805164f6d33151
+
 #include <stdlib.h>
-#include <led.h>
+#include "led.h"
 
 
 #define NUMBER_OF_LEDS 4 //Define is a "preprocessor directive". It ensures that every NUMBER_OF_LEDS will be replaced by 4 in the following code
@@ -113,5 +112,5 @@ void flashRandomLed() {
     _delay_ms(delayTime);  // Pause before the next flash
 }
 */
->>>>>>> 62b4337535ccb0f4aa5aa7e4d3805164f6d33151
+
 
