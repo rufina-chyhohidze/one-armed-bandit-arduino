@@ -1,4 +1,4 @@
-#include <Arduino.h>
+
 #include <stdlib.h>  // For rand()
 #include <led.h>    // Include the LED header file
 #define __DELAY_BACKWARD_COMPATIBLE__  // Allows variables in _delay_ms
