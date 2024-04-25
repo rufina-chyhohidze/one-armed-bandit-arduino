@@ -1,13 +1,61 @@
 
 #include <stdlib.h>  // For rand()
-#include <led.h>    // Include the LED header file
-#define __DELAY_BACKWARD_COMPATIBLE__  // Allows variables in _delay_ms
-#include <util/delay.h>  // For delay functions
+#include <time.h>
+#include <led.h>    
+#include <util/delay.h>  
 #include <avr/io.h>
 
-
+#define NUMBER_OF_LEDS 4
 int main(){
- DDRB = 0b000000100;
- PORTB = 0b00000000;
- return 0;
+    srand((unsigned)time(NULL)); // NULL for current time
+    while (1) {
+     for (int i=1;i<4;i++)
+    {
+    enabledLed(i);
+    lightDownLed(i);
+    _delay_ms(100);
+  }
+    for (int i=2;i<4;i++)
+    {
+    enabledLed(i);
+    lightUpLed(i);
+    _delay_ms(100);
+    lightDownLed(i);
+    _delay_ms(100);
+  }
+  for (int i=4;i<20;i++)
+    {
+    enabledLed(i);
+    lightUpLed(i);
+    _delay_ms(100);
+    lightDownLed(i);
+    _delay_ms(100);
+  }
+   for (int i=3;i<4;i++)
+    {
+    enabledLed(i);
+    lightUpLed(i);
+    _delay_ms(100);
+    lightDownLed(i);
+    _delay_ms(100);
+    }
+    for (int i=0;i<2;i++)
+    {
+    enabledLed(i);
+    lightUpLed(i);
+    _delay_ms(100);
+    lightDownLed(i);
+    _delay_ms(100);
+    }
+    for (int i=0;i<4;i++)
+    {
+    enabledLed(i);
+    lightUpLed(i);
+    _delay_ms(100);
+    lightDownLed(i);
+    _delay_ms(100);
+    }
+  return 0;
 }
+    }
+
