@@ -12,7 +12,7 @@ int main()
 
     while (1) 
     {  
-        if (buttonPushed(PC1)==0) {
+        if (buttonPushed(PC1)==1) {
             printf(" - Button 1 pressed!\n"); 
         } else { 
             printf(" - Button 1 NOT pressed!!\n"); 

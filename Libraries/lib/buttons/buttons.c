@@ -5,12 +5,17 @@ void enableButton( int button ){
     PORTC |= _BV( button ); 
 } ;
 int buttonPushed( int button ){
-    if (bit_is_clear(PINC, button)) { // Assuming buttons are connected to Port C
-        return 1; // Button is pressed (because pull-up resistor makes it high when not pressed)
+    if (bit_is_clear(PINC, button)) { 
+        return 1; // Button is pressed 
     } else {
         return 0; // Button is not pressed
     }
 };
 int buttonReleased( int button ){
+    if (bit_is_set(PINC, button)) { 
+        return 1; // Button is released (because pull-up resistor makes it high)
+    } else {
+        return 0; // Button is still pressed
+    }
 
 };
