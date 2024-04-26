@@ -17,5 +17,4 @@ int buttonReleased( int button ){
     } else {
         return 0; // Button is still pressed
     }
-
 };
