@@ -41,9 +41,22 @@ void lightDownMultipleLeds(uint8_t leds) {
 
 }
 void enableAllLeds() {
-  PORTB = 0b00001111;
+    for (int i = 0; i < LED_COUNT; ++i) {
+        enableOneLed(i); // Enable each LED one by one
+    }
 }
-
+#define MIN_LED_NUMBER 0
+void lightUpOneLed(int led) {
+    if (led >= MIN_LED_NUMBER && led < LED_COUNT) { // Check if led number is within the valid range
+        PORTB &= ~(1 << (PB2 + led)); // Turn on the specified LED
+    }
+}
+void lightUpAllLeds() {
+    for (int i = 0; i < LED_COUNT; ++i) {
+        lightUpOneLed(i); // Turn on all LEDs
+    }
+}
+/*
 void lightUpAllLeds(){
   enableAllLeds();
   PORTB&=~(1<<(PB2+0));
@@ -51,6 +64,7 @@ void lightUpAllLeds(){
   PORTB&=~(1<<(PB2+3));
    PORTB&=~(1<<(PB2+4));
 }
+*/
 
 
 

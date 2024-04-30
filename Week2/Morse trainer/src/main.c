@@ -30,7 +30,7 @@ int main(){
   void displayMorseCode(const char *pattern){
     while (*pattern) {
         if (*pattern == '.') {
-            lightUpAllLeds(1);
+            lightUpAll(1);
             _delay_ms(200); // Short flash
         } else if (*pattern == '-') {
             lightUpAllLeds(1);
