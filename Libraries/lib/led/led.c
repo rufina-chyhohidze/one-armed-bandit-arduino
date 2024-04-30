@@ -40,9 +40,8 @@ void lightDownMultipleLeds(uint8_t leds) {
   PORTB&=~(leds<<2);
 
 }
-#define LED_OFFSET 2 
 void enableAllLeds() {
-    DDRB |= ((1 << LED_COUNT) - 1) << LED_OFFSET; // Enable LED_COUNT bits starting from LED_OFFSET
+  PORTB = 0xFF;
 }
 
 void lightUpAllLeds(){
