@@ -40,19 +40,22 @@ void lightDownMultipleLeds(uint8_t leds) {
   PORTB&=~(leds<<2);
 
 }
-/*
+#define LED_OFFSET 2 
+void enableAllLeds() {
+    DDRB |= ((1 << LED_COUNT) - 1) << LED_OFFSET; // Enable LED_COUNT bits starting from LED_OFFSET
+}
+
 void lightUpAllLeds(){
   enableAllLeds();
   PORTB&=~(1<<(PB2+0));
-  PORTB&=~(1<<(PB2*1));
-  PORTB&=~(1<<(PB2*3));
-
+  PORTB&=~(1<<(PB2+1));
+  PORTB&=~(1<<(PB2+3));
+   PORTB&=~(1<<(PB2+4));
 }
 
 
 
-<<<<<<< HEAD
-=======
+
 //Dimmed leds
 /*#define NUMBER_OF_LEDS 4
 
