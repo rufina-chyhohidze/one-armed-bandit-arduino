@@ -41,7 +41,7 @@ void lightDownMultipleLeds(uint8_t leds) {
 
 }
 void enableAllLeds() {
-  PORTB = 0xFF;
+  PORTB = 0b00001111;
 }
 
 void lightUpAllLeds(){
