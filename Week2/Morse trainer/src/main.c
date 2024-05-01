@@ -47,7 +47,7 @@
 #define LED_OFF(x) (LED_PORT |= _BV(x))
 #define LED_TOGGLE(x) (LED_PORT ^= _BV(x))
 
-//morse durations 
+//macros for morse durations 
 #define DOT_DURATION 200 // duration of a Morse dot
 #define DASH_DURATION 600 // duration of a Morse dash
 #define LETTER_GAP 800 // gap between letters
@@ -81,3 +81,34 @@ const char* morse_code[] = {
     "-.--", // Y //24
     "--.."  // Z //25
 };
+ 
+ //a specific function for duration of dots and dashes using defined previously LED's
+void send_morse(const char* pattern) {
+    while (*pattern) {
+        if (*pattern == '.') {
+            LED_ON(LED1);
+            _delay_ms(DOT_DURATION);
+            LED_OFF(LED1);
+        } else if (*pattern == '-') {
+            LED_ON(LED1);
+            _delay_ms(DASH_DURATION);
+            LED_OFF(LED1);
+        }
+        _delay_ms(DOT_DURATION); // gap between dots/dashes in a letter
+        pattern++;
+    }
+    _delay_ms(LETTER_GAP); // gap between letters
+}
+
+void countdown_pattern() {
+    //using function all leds on
+    lightUpAllLeds();
+    _delay_ms(2000);
+
+    // 4, 3, 2, 1, 0
+    for (int i = 4; i >= 0; --i) {
+        if (i < 4) LED_OFF(PB5 - i);
+        _delay_ms(1000);
+    }
+}
+
