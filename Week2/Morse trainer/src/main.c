@@ -99,7 +99,6 @@ void send_morse(const char* pattern) {
     }
     _delay_ms(LETTER_GAP); // gap between letters
 }
-
 void countdown_pattern() {
     //using function all leds on
     lightUpAllLeds();
@@ -112,3 +111,37 @@ void countdown_pattern() {
     }
 }
 
+
+int main() {
+    LED_DDR |= _BV(LED1) | _BV(LED2) | _BV(LED3) | _BV(LED4); //  output
+    BUTTON_DDR &= ~_BV(BUTTON1 | _BV(BUTTON2) | _BV(BUTTON3)); //  input 
+    BUTTON_PORT |= _BV(BUTTON1 | _BV(BUTTON2) | _BV(BUTTON3)); //PULL-UPS
+
+    sei(); //for maybe future purposes interupts
+
+     while (1) {
+        countdown_pattern();
+        
+        if (!(BUTTON_PIN & _BV(BUTTON1))) {
+            // If Button 1 is pressed, send Morse code for "HELLO"
+            send_morse(morse_code[7]); // H
+            send_morse(morse_code[4]); // E
+            send_morse(morse_code[11]); // L
+            send_morse(morse_code[11]); // L
+            send_morse(morse_code[14]); // O
+            _delay_ms(300);
+        } else if (!(BUTTON_PIN & _BV(BUTTON2))) {
+            send_morse(morse_code[0]); // A
+            send_morse(morse_code[2]); // C
+            send_morse(morse_code[18]); // S
+          _delay_ms(300);
+        } else if (!(BUTTON_PIN & _BV(BUTTON3))) {
+          send_morse(morse_code[10]); // K
+            send_morse(morse_code[3]); // D
+            send_morse(morse_code[6]); // G
+        }
+        _delay_ms(200); // Short delay to prevent button bounce issues
+    }
+
+    return 0;
+}
