@@ -44,3 +44,4 @@ void enableAllButtonInterrupts() {
     enableButtonInterrupt(1); // Enable interrupt for button 1
     enableButtonInterrupt(2); // Enable interrupt for button 2
 }
+
