@@ -14,55 +14,60 @@ void enabledLed(int lednumber)//C has no classes; functions can be included dire
 {
   if (lednumber <0 || lednumber>NUMBER_OF_LEDS-1)return;
   DDRB |=(1<<(PB2+lednumber));
-}
+};
+
 void lightUpLed ( int lednumber )    //Note: enabled LEDs light up immediately ( 0 = on )
 {
   if (lednumber<0||lednumber>NUMBER_OF_LEDS-1)return;
   PORTB &=~(1<<(PB2+lednumber));
-}
+};
+
 void lightDownLed ( int lednumber )
 {
   if(lednumber<0||lednumber>3)return;
   PORTB |=(1<<(PB2+lednumber));
-}
+};
+
 #define LED_COUNT 4
 void enableMultipleLeds(uint8_t leds) {
 DDRB |= (leds<<2);
-}
+};
   
 void lightUpMultipleLeds(uint8_t leds) {
   enableMultipleLeds(leds);
   PORTB &=~(leds<<2);
-}
+};
 
 void lightDownMultipleLeds(uint8_t leds) {
   enableMultipleLeds(leds);
   PORTB&=~(leds<<2);
+};
 
-}
 void enableAllLeds() {
     for (int i = 0; i < LED_COUNT; ++i) {
-        enableOneLed(i); // Enable each LED one by one
+        enabledLed(i); // Enable each LED one by one
     }
-}
+};
+
 #define MIN_LED_NUMBER 0
 void lightUpOneLed(int led) {
     if (led >= MIN_LED_NUMBER && led < LED_COUNT) { // Check if led number is within the valid range
         PORTB &= ~(1 << (PB2 + led)); // Turn on the specified LED
     }
-}
+};
 void lightUpAllLeds() {
     for (int i = 0; i < LED_COUNT; ++i) {
         lightUpOneLed(i); // Turn on all LEDs
     }
-}
+};
+
 void lightDownAllLeds(){
   PORTB |=(1<<(PB2+0));
   PORTB |=(1<<(PB2+1));
   PORTB |=(1<<(PB2+2));
   PORTB |=(1<<(PB2+3));
+};
 
-}
 /*
 void lightUpAllLeds(){
   enableAllLeds();
