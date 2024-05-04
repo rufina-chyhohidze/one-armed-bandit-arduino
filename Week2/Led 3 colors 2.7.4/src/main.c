@@ -10,7 +10,7 @@
  ISR(PCINT1_vect){
   for(int i=0;i<NB_BUTTONS; i++){
     if (buttonPushed(i+1)==1){
-      onOff[i]=1 -onOff[i];
+      onOff[i]=1 - onOff[i];
     }
   }
  }
@@ -25,7 +25,7 @@
   int i;
   while (1){
     for (i=0;i<NB_BUTTONS;i++){
-      if (onOff[1]==1){
+      if (onOff[i]==1){
         lightUpLed(i);
       }
     }
@@ -33,5 +33,6 @@
     lightDownAllLeds();
     _delay_ms(100);  //whatever led is active, this loop will enable leds flashing ,to activate, we need to use the buttons
   }
-
+  return 0;
  }
+ 
