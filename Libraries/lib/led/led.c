@@ -56,6 +56,13 @@ void lightUpAllLeds() {
         lightUpOneLed(i); // Turn on all LEDs
     }
 }
+void lightDownAllLeds(){
+  PORTB |=(1<<(PB2+0));
+  PORTB |=(1<<(PB2+1));
+  PORTB |=(1<<(PB2+2));
+  PORTB |=(1<<(PB2+3));
+
+}
 /*
 void lightUpAllLeds(){
   enableAllLeds();

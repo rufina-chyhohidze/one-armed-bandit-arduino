@@ -3,7 +3,18 @@
 void enableButton( int button ){
     DDRC &= ~_BV( button );
     PORTC |= _BV( button ); 
-} ;
+};
+
+#define button1 0
+#define button2 1
+#define button3 2
+
+void enableAllButtons(){
+    DDRC &= ~_BV(button1);
+    DDRC &= ~_BV(button2);
+    DDRC &= ~_BV(button3);
+};
+
 int buttonPushed( int button ){
     if (bit_is_clear(PINC, button)) { 
         return 1; // Button is pressed 
@@ -11,6 +22,7 @@ int buttonPushed( int button ){
         return 0; // Button is not pressed
     }
 };
+
 int buttonReleased( int button ){
     if (bit_is_set(PINC, button)) { 
         return 1; // Button is released (because pull-up resistor makes it high)
@@ -36,12 +48,12 @@ void enableButtonInterrupt(int button) {
             // Handle other cases if needed
             break;
     }
-}
+};
 
 // Enable all button interrupts
 void enableAllButtonInterrupts() {
     enableButtonInterrupt(0); // Enable interrupt for button 0
     enableButtonInterrupt(1); // Enable interrupt for button 1
     enableButtonInterrupt(2); // Enable interrupt for button 2
-}
+};
 
