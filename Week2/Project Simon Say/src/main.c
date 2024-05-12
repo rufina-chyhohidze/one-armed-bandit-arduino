@@ -3,39 +3,53 @@
 #include <led.h>
 #include <buttons.h>
 #include <usart.h>
+#include <stdlib.h> 
 
-//EXERCISE 1:PREPARATIONS TO PLAY
-volatile uint8_t ledFlashing = 1; //it enable flashing LED 
+volatile uint8_t ledFlashing = 1; 
+volatile uint8_t buttonPressed = 0; 
+volatile uint8_t counter = 0; //counetr for gen.seeds 
 
-// TURN ON pin change interrupt for a specific pin within the pin change interrupt group
+
 void enablePinChangeInterrupt(int pinGroup, int pin) {
-    if (pinGroup == 1) { // Example for PCINT1
-        PCICR |= _BV(PCIE1); // Enable Pin Change Interrupt for group 1
-        PCMSK1 |= _BV(pin); // Enable the specific pin within the group
+    if (pinGroup == 1) { 
+        PCICR |= _BV(PCIE1); 
+        PCMSK1 |= _BV(pin); 
     }
 }
 
 ISR(PCINT1_vect) {
-    if (PINC & _BV(PC1)) { //if pc1 was pressed 
-        ledFlashing = !ledFlashing; //then flash LED 4
+    if (buttonPressed == 0 && (PINC & _BV(PC1))) { // check if button PC1 was pressed
+        buttonPressed = 1; // //sets the state of button to 1 after pressing
     }
 }
 
 int main() 
 { 
     initUSART(); 
-    DDRB |= _BV(PB5); // LED 4 as output
-
-    enablePinChangeInterrupt(1, PC1); // Enable Pin Change Interrupt for PC1
-  
+    DDRB |= _BV(PB5); 
+    enablePinChangeInterrupt(1, PC1); 
     sei(); 
     
     while (1) 
     {
         if (ledFlashing) {
             PORTB ^= _BV(PB5); // Toggle LED 4
+            _delay_ms(200); 
+            counter++; // increments counter while LED is flashing
         }
-        _delay_ms(300); 
+
+        if (buttonPressed) {
+            srand(counter);
+            
+            printf("Random Series: ");
+            for (int i = 0; i < 10; i++) {
+                uint8_t randomNum = rand() % 3; 
+                printf("%d ", randomNum);
+            }
+            printf("\n");
+            
+            buttonPressed = 0; // Reset button state
+        }
     }
     return 0; 
 }
