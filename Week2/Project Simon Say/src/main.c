@@ -5,10 +5,13 @@
 #include <usart.h>
 #include <stdlib.h> 
 
-volatile uint8_t ledFlashing = 1; 
-volatile uint8_t buttonPressed = 0; 
-volatile uint8_t counter = 0; //counetr for gen.seeds 
 
+volatile uint8_t ledFlashing = 1; // Enable flashing LED
+volatile uint8_t buttonPressed = 0; // Flag to indicate button press
+volatile uint8_t counter = 0; // Counter for generating random seed
+
+#define PUZZLE_LENGTH 10 // array of 10
+uint8_t puzzle[PUZZLE_LENGTH]; //  store the random puzzle in array
 
 void enablePinChangeInterrupt(int pinGroup, int pin) {
     if (pinGroup == 1) { 
@@ -18,9 +21,28 @@ void enablePinChangeInterrupt(int pinGroup, int pin) {
 }
 
 ISR(PCINT1_vect) {
-    if (buttonPressed == 0 && (PINC & _BV(PC1))) { // check if button PC1 was pressed
-        buttonPressed = 1; // //sets the state of button to 1 after pressing
+    if (buttonPressed == 0 && (PINC & _BV(PC1))) {
+        buttonPressed = 1; 
     }
+}
+
+// Function to generate the random puzzle
+void generatePuzzle(uint8_t *puzzle, uint8_t length) {
+    for (uint8_t i = 0; i < length; i++) {
+        puzzle[i] = rand() % 3; 
+    }
+}
+
+// prints the puzzle array to Serial Monitor
+void printPuzzle(uint8_t *puzzle, uint8_t length) {
+    printf("[");
+    for (uint8_t i = 0; i < length; i++) {
+        printf("%d", puzzle[i]);
+        if (i < length - 1) {
+            printf(" ");
+        }
+    }
+    printf("]\n");
 }
 
 int main() 
@@ -33,22 +55,20 @@ int main()
     while (1) 
     {
         if (ledFlashing) {
-            PORTB ^= _BV(PB5); // Toggle LED 4
-            _delay_ms(200); 
-            counter++; // increments counter while LED is flashing
+            PORTB ^= _BV(PB5); 
+            _delay_ms(200);
+            counter++; 
         }
-
-        if (buttonPressed) {
+        
+        if (buttonPressed) {  
             srand(counter);
             
-            printf("Random Series: ");
-            for (int i = 0; i < 10; i++) {
-                uint8_t randomNum = rand() % 3; 
-                printf("%d ", randomNum);
-            }
-            printf("\n");
+            generatePuzzle(puzzle, PUZZLE_LENGTH);
             
-            buttonPressed = 0; // Reset button state
+            printf("Random Puzzle: ");
+            printPuzzle(puzzle, PUZZLE_LENGTH);
+            
+            buttonPressed = 0; 
         }
     }
     return 0; 
