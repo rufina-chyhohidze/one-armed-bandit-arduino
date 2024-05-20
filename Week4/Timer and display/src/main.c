@@ -2,7 +2,6 @@
 #include <avr/io.h>
 #include <usart.h>
 #include <display.h>
-
 #include <avr/interrupt.h>
 
 void initTimer0()
@@ -19,11 +18,30 @@ void initTimer0()
     TIMSK0 |= _BV(TOIE0); // enable overflow interrupt
 }
 
+volatile int countdown = 10;
+volatile int doneFlashing = 0;
+volatile int displayState = 0; // 0 for countdown, 1 for DONE flashing
+
 // This ISR runs every time TCNT0 equals the TOP value (255)
 ISR(TIMER0_OVF_vect)
 {
-    writeNumber(2023);
-    blankSegment(3); // Otherwise the last segment is much brighter than the rest
+    if (displayState == 0)
+    {
+        writeNumber(countdown);
+        blankSegment(3); // Otherwise the last segment is much brighter than the rest
+    }
+    else
+    {
+        if (doneFlashing % 2 == 0)
+        {
+            writeString("DONE");
+        }
+        else
+        {
+            clearDisplay();
+        }
+        doneFlashing++;
+    }
 }
 
 int main()
@@ -31,28 +49,31 @@ int main()
     initUSART();
     initDisplay();
     initTimer0(); // initialize Timer 0
+    sei(); // enable interrupts globally
+
     while (1)
     {
-        for (int i = 0; i < 4; i++)
+        if (displayState == 0)
         {
-            writeNumberToSegment(i, 8);
-            _delay_ms(1000);
+            for (int i = countdown; i >= 0; i--)
+            {
+                countdown = i;
+                _delay_ms(1000);
+            }
+            displayState = 1; // Switch to DONE flashing state
+            doneFlashing = 0; // Reset the flashing counter
         }
-        /* Use the writeNumber function if
-         * you want to display a 4 digit number. */
-        writeNumber(1974);
-        _delay_ms(1000);
-        /* Problem: this function shows the digits 1 by 1 and then
-         * adds a delay. So, only the last digit is displayed.
-         * New Solution: use a timer/interrupt */
-
-        sei(); // enable interrupts globally
-        _delay_ms(2000);
-        cli(); // disable interrupts globally
-
-        /* Or you could use a function from the library.
-         * Then you can also specify the display duration. */
-        writeNumberAndWait(1974, 2000);
+        else
+        {
+            // Flash "DONE" for 10 seconds
+            for (int i = 0; i < 10; i++)
+            {
+                _delay_ms(1000);
+            }
+            // Reset for another countdown
+            countdown = 10;
+            displayState = 0;
+        }
     }
     return 0;
 }

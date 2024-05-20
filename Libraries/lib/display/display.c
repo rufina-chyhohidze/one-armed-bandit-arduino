@@ -124,3 +124,12 @@ void blankSegment(uint8_t segment)
   shift(SEGMENT_SELECT[segment], MSBFIRST);
   sbi(PORTD, LATCH_DIO);
 }
+void clearDisplay()
+{
+    for (int i = 0; i < 4; i++)
+    {
+        writeNumberToSegment(i, 0);
+    }
+    // clears the dot segment
+    blankSegment(4);
+}
