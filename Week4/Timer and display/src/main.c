@@ -34,7 +34,7 @@ ISR(TIMER0_OVF_vect)
     {
         if (doneFlashing % 2 == 0)
         {
-            writeString("DONE");
+            writeString("ALOR");
         }
         else
         {
