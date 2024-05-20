@@ -115,3 +115,12 @@ void writeStringAndWait(const char* str, int delay) {
         _delay_ms(5); // Delay to ensure proper display
     }
 }                                
+
+// Blanks a certain segment. Segment 0 is the leftmost.
+void blankSegment(uint8_t segment)
+{
+  cbi(PORTD, LATCH_DIO);
+  shift(0xFF, MSBFIRST);
+  shift(SEGMENT_SELECT[segment], MSBFIRST);
+  sbi(PORTD, LATCH_DIO);
+}
