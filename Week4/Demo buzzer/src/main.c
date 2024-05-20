@@ -4,7 +4,7 @@
 #include  <util/delay.h> 
 
 //DURATION IS IN MILLISECONDS 
-#define  DURATION  150 
+#define  DURATION  500 
 
 //FREQUENCIES OF THE NOTES 
 #define  C5  523.250 
@@ -37,7 +37,7 @@ void  playTone ( float  frequency , uint32_t  duration )
 int  main () 
 { 
 initUSART (); 
-float  frequencies [] = { C5 , D5 , E5 , F5 , G5 , A5 , B5 , C6 };//do-re-mi... 
+float  frequencies [] = {C5, D5, E5, C5, C5, D5, E5, C5, E5, F5, G5}; // C D E C twice, followed by E F G once
 enableBuzzer (); 
 for ( int  note = 0 ; note < 8 ; note ++ ) 
 { 
