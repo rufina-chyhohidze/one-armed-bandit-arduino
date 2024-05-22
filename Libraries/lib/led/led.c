@@ -1,9 +1,7 @@
 #include <util/delay.h>
 #include <avr/io.h>
 #define __DELAY_BACKWARD_COMPATIBLE__  
-
 #define __DELAY_BACKWARD_COMPATIBLE__    
-
 #include <stdlib.h>
 #include "led.h"
 
@@ -67,6 +65,37 @@ void lightDownAllLeds(){
   PORTB |=(1<<(PB2+2));
   PORTB |=(1<<(PB2+3));
 };
+
+
+void dimLed(int LEDnumber, int percentage, long duration) {
+    if ( LEDnumber < 0 || LEDnumber > NUMBER_OF_LEDS ) return;
+    int lightOffDuration = percentage / 10;
+
+    int lightOnDuration = 10-lightOffDuration;
+    for (int i = 0; i<(duration*500); i++) {
+        lightUpLed(LEDnumber);
+        _delay_ms(lightOnDuration);
+        lightDownLed(LEDnumber);
+        _delay_ms(lightOffDuration);
+    }
+}
+
+void fadeInLed(int LEDnumber, long duration) {
+    if ( LEDnumber < 0 || LEDnumber > NUMBER_OF_LEDS ) return;
+    for (long i = 0; i <= duration * 500; i++) {
+        int percentage = (i * 100) / (duration * 500);
+        dimLed(LEDnumber, percentage, 1);
+    }
+}
+
+
+void fadeOutLed(int LEDnumber, long duration) {
+    if ( LEDnumber < 0 || LEDnumber > NUMBER_OF_LEDS ) return;
+    for (long i = duration * 500; i >= 0; i--) {
+        int percentage = (i * 100) / (duration * 500);
+        dimLed(LEDnumber, percentage, 1);
+    }
+}
 
 /*
 void lightUpAllLeds(){

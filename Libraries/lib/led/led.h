@@ -23,3 +23,11 @@ void lightDownAllLeds ();
 void lightToggleOneLed(int);
 
 
+void fadeInLed(int, long);
+
+void fadeOutLed(int, long);
+
+/* Dims the LEDs the specified percentage, during the specified amount of time (lednumber, dimming %, duration in ms) */
+void dimLed(int, int, long);
+
+
