@@ -57,8 +57,6 @@ void initGame() {
 
 // Function to print rules of the game to the serial monitor,used 200ms of delay for better readability.
 void printGameRules() {
-    printf("\nChoose your game: Select a 2, 3, or 4 display slot machine using the left button.\r\n");
-    _delay_ms(200);
     printf("\nPlace your bet: Press the right button once to bet 1 coin per turn. LED displays light up, and a sound signifies the bet.\r\n");
     _delay_ms(200);
     printf("\nActivate the slot machine: Press the right button again to start the game. Watch as random numbers appear and jump on the displays.\r\n");
@@ -66,6 +64,13 @@ void printGameRules() {
     printf("\nWin big: If all displays show the same number, hear the victory sound and win coins! Win 5 for 2 displays, 50 for 3, or 500 for 4.\r\n");
     _delay_ms(200);
     printf("\nGame over: Lose all your coins, and the game stops with a loss message. Reach 9999 coins, and the game ends with a \"bank break\" message.\r\n");
+     printf("\n----------Choose your game: Select a 2, 3, or 4 display slot machine.---------------------\r\n");
+     printf("                        PRESS BUTTON 1 FOR 2 SLOTS DISPLAY.\n");
+    _delay_ms(200);
+    printf("                        PRESS BUTTON 2 FOR 3 SLOTS DISPLAY.\n");
+    _delay_ms(200);
+    printf("                        PRESS BUTTON 3 FOR 4 SLOTS DISPLAY.\n");
+
 }
 
 int main() {
@@ -76,14 +81,47 @@ int main() {
     DDRB |= _BV(PB4);
     DDRB |= _BV(PB5);
     
-    printf("-------------------------Welcome, it's time to play some One armed bandit!------------------------\n ");
-    printf("--------------------------------------------------------------------------------------------------\n ");
-    printf("---$_$_$_$_$_$_$_$_$_$_$_$_$_$ Click button ONE to see the rules. _$_$_$_$_$_$_$_$_$_$_$_$_$_$_$_$\n ");
-while (1) {
-        // Check for button presses
-        if (bit_is_clear(PINC, BUTTON1)) {
-            printGameRules();
-            _delay_ms(300);
+    printf("----------------------------WELCOME TO ONE ARMED BANDIT!----------------\n ");
+    _delay_ms(1000);
+    printf("-----------------------------------------------------------------------\n ");
+    _delay_ms(1000);
+    printf("---$_$_$_$_$_$_$_$_$_$_$_$_$_$ RULES TO PLAY: _$_$_$_$_$_$_$_$_$_$_$_$\n ");
+    _delay_ms(1000);
+    printGameRules();
+    
+     while (1) {
+         if (bit_is_clear(PINC, BUTTON1)) {
+            printf("Your choice is: 2 slots display.\n");
+            // Blink LEDs twice
+            for (int i = 0; i < 2; i++) {
+                lightUpAllLeds();
+                _delay_ms(500);
+                lightDownAllLeds();
+                _delay_ms(500);
+            }
+        } else if (bit_is_clear(PINC, BUTTON2)) {
+            printf("Your choice is: 3 slots display.\n");
+            // Blink LEDs three times
+            for (int i = 0; i < 3; i++) {
+                lightUpAllLeds();
+                _delay_ms(500);
+                lightDownAllLeds();
+                _delay_ms(500);
+            }
+        } else if (bit_is_clear(PINC, BUTTON3)) {
+            printf("Your choice is: 4 slots display.\n");
+            // Blink LEDs four times
+            for (int i = 0; i < 4; i++) {
+                lightUpAllLeds();
+                _delay_ms(500);
+                lightDownAllLeds();
+                _delay_ms(500);
+            }
         }
     }
+
+    return 0;
 }
+
+
+
