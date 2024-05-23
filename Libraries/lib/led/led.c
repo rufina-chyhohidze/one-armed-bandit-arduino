@@ -97,6 +97,14 @@ void fadeOutLed(int LEDnumber, long duration) {
     }
 }
 
+void blinkLEDs(int count) {
+    for (int i = 0; i < count; ++i) {
+        lightUpAllLeds(); // Light up all LEDs
+        _delay_ms(500); // Delay for 500 milliseconds
+        lightDownAllLeds(); // Turn off all LEDs
+        _delay_ms(500); // Delay for 500 milliseconds
+    }
+}
 
 
 /*

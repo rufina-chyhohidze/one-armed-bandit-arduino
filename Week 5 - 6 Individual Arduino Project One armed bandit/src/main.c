@@ -31,15 +31,6 @@
 #define WIN_AMOUNT_3 50
 #define WIN_AMOUNT_4 500
 
-
-/*volatile int coins = START_COINS;
-volatile int wager = 1;
-volatile int displayCount = 4;
-volatile int gameActive = 0;
-volatile int showCoins = 0;
-volatile int symbols[4] = {0, 0, 0, 0};
-*/
-
 #define MAX_GAME_STATES 10
 int coins = START_COINS;
 
@@ -75,6 +66,8 @@ void printGameRules() {
     printf("                        PRESS BUTTON 3 FOR 4 SLOTS DISPLAY.\n");
 
 }
+
+//function for display coins on serail monitor and display
 void displayCoins(int coins) {
     char coinsStr[5];
     snprintf(coinsStr, sizeof(coinsStr), "%4d", coins);
@@ -82,6 +75,8 @@ void displayCoins(int coins) {
         writeCharToSegment(i, coinsStr[i]);
     }
 }
+
+//function to generate the random number and show it on the display
 void displayRandomNumbers(int slotCount) {
     int numbers[4];
     for (int i = 0; i < slotCount; i++) {
@@ -101,7 +96,6 @@ void displayRandomNumbers(int slotCount) {
             break;
         }
     }
-
     if (win) {
         int winAmount = (slotCount == 2) ? WIN_AMOUNT_2 : (slotCount == 3) ? WIN_AMOUNT_3 : WIN_AMOUNT_4;
         coins += winAmount;
@@ -128,14 +122,7 @@ void checkGameOver() {
 }
 
 //method to put in lib
-void blinkLEDs(int count) {
-    for (int i = 0; i < count; ++i) {
-        lightUpAllLeds(); // Light up all LEDs
-        _delay_ms(500); // Delay for 500 milliseconds
-        lightDownAllLeds(); // Turn off all LEDs
-        _delay_ms(500); // Delay for 500 milliseconds
-    }
-}
+
 void checkWin(int numbers[], int slotCount) {
     int winAmount = 0;
     int sameNumber = 1; // Flag to check if all numbers are the same
@@ -204,12 +191,11 @@ int main() {
             }
 
             checkWin(numbers, 2); // checks for win state 
-
             checkGameOver(); // it checks if the game is over 
         } else if (bit_is_clear(PINC, BUTTON2)) {
-            // Similar logic for 3 and 4 slots display
+            //similar for 3 slots 
         } else if (bit_is_clear(PINC, BUTTON3)) {
-            // Similar logic for 4 slots display
+            // Similar logic here for 4 slots display
         }
         writeNumber(coins); // Update coin display
     }
