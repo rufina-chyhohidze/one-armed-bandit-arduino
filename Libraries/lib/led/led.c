@@ -97,6 +97,8 @@ void fadeOutLed(int LEDnumber, long duration) {
     }
 }
 
+
+
 /*
 void lightUpAllLeds(){
   enableAllLeds();

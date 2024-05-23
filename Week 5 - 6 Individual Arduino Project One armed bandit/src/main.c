@@ -11,6 +11,7 @@
 #include <display.h>
 #include <usart.h>  
 #include <string.h>
+#include <time.h>
 
 //defining leds,buttons...
 #define LED1 PB2
@@ -30,6 +31,7 @@
 #define WIN_AMOUNT_3 50
 #define WIN_AMOUNT_4 500
 
+
 /*volatile int coins = START_COINS;
 volatile int wager = 1;
 volatile int displayCount = 4;
@@ -39,6 +41,7 @@ volatile int symbols[4] = {0, 0, 0, 0};
 */
 
 #define MAX_GAME_STATES 10
+int coins = START_COINS;
 
 typedef struct {
     int sequence;
@@ -72,21 +75,104 @@ void printGameRules() {
     printf("                        PRESS BUTTON 3 FOR 4 SLOTS DISPLAY.\n");
 
 }
+void displayCoins(int coins) {
+    char coinsStr[5];
+    snprintf(coinsStr, sizeof(coinsStr), "%4d", coins);
+    for(int i = 0; i < 4; i++) {
+        writeCharToSegment(i, coinsStr[i]);
+    }
+}
+void displayRandomNumbers(int slotCount) {
+    int numbers[4];
+    for (int i = 0; i < slotCount; i++) {
+        numbers[i] = rand() % 10; // Generate random number between 0 and 9
+    }
 
+    // Display all numbers simultaneously
+    for (int i = 0; i < slotCount; i++) {
+        writeNumberToSegment(i, numbers[i]);
+    }
+
+    // Check if all numbers are the same
+    int win = 1;
+    for (int i = 1; i < slotCount; i++) {
+        if (numbers[i] != numbers[0]) {
+            win = 0;
+            break;
+        }
+    }
+
+    if (win) {
+        int winAmount = (slotCount == 2) ? WIN_AMOUNT_2 : (slotCount == 3) ? WIN_AMOUNT_3 : WIN_AMOUNT_4;
+        coins += winAmount;
+        printf("Congratulations! You won %d coins!\n", winAmount);
+        //victorySound();
+    }
+
+    displayCoins(coins);
+}
+
+//function to chech if the game is over 
+void checkGameOver() {
+    if (coins <= 0) {
+        printf("Game over! You have run out of coins.\n");
+        while (1) {
+            // Display scrolling loss message
+        }
+    } else if (coins >= MAX_COINS) {
+        printf("Congratulations! Bank break! You have reached the maximum coins.\n");
+        while (1) {
+            // Display scrolling win message
+        }
+    }
+}
+
+//method to put in lib
+void blinkLEDs(int count) {
+    for (int i = 0; i < count; ++i) {
+        lightUpAllLeds(); // Light up all LEDs
+        _delay_ms(500); // Delay for 500 milliseconds
+        lightDownAllLeds(); // Turn off all LEDs
+        _delay_ms(500); // Delay for 500 milliseconds
+    }
+}
+void checkWin(int numbers[], int slotCount) {
+    int winAmount = 0;
+    int sameNumber = 1; // Flag to check if all numbers are the same
+    int targetNumber = numbers[0]; // Store the first number as the target number
+
+    // Checks if all numbers are the same
+    for (int i = 1; i < slotCount; i++) {
+        if (numbers[i] != targetNumber) {
+            sameNumber = 0; // Set the flag to false if any number is different
+            break;
+        }
+    }
+
+    if (sameNumber) { // If all numbers are the same
+        winAmount = (slotCount == 2) ? WIN_AMOUNT_2 : (slotCount == 3) ? WIN_AMOUNT_3 : WIN_AMOUNT_4;
+        coins += winAmount; // Add the win amount to coins
+        printf("Congratulations! You won %d coins!\n", winAmount);
+        // i will play  victory sound here
+    } else {
+        printf("Better luck next time!\n");
+    }
+
+    displayCoins(coins); // Update coin display
+}
 
 
 
 int main() {
+    // Initialization
     initUSART();
     initGame();
     initDisplay();
+    srand(time(NULL));
     writeWelcomeToTheUserOnDisplay();
-    DDRB |= _BV(PB2); //controlling an LED
-    DDRB |= _BV(PB3);
-    DDRB |= _BV(PB4);
-    DDRB |= _BV(PB5);
-    
-    
+    DDRB |= _BV(PB2); // Enable LED control
+
+    // Print game rules
     printf("----------------------------WELCOME TO ONE ARMED BANDIT!----------------\n ");
     _delay_ms(900);
     printf("-----------------------------------------------------------------------\n ");
@@ -94,36 +180,38 @@ int main() {
     printf("---$_$_$_$_$_$_$_$_$_$_$_$_$_$ RULES TO PLAY: _$_$_$_$_$_$_$_$_$_$_$_$\n ");
     _delay_ms(900);
     printGameRules();
+
     
-     while (1) {
-         if (bit_is_clear(PINC, BUTTON1)) {
+    while (1) {
+        if (bit_is_clear(PINC, BUTTON1)) {
             printf("Your choice is: 2 slots display.\n");
+            coins--; // Deduct one coin for the bet
+            displayCoins(coins); // Update coin display
+            printf("We are starting the game! Your current bank is: %d coins\n", coins);
+
             // Blink LEDs twice
+            lightUpMultipleLeds(0b0011);
+            _delay_ms(1000);
+            lightDownAllLeds();
+            _delay_ms(1000);
+
+            // Generate and display random numbers for 2 slots
+            int numbers[2];
             for (int i = 0; i < 2; i++) {
-                lightUpAllLeds();
-                _delay_ms(500);
-                lightDownAllLeds();
-                _delay_ms(500);
+                numbers[i] = rand() % 10; // Generate random number between 0 and 9
+                writeNumberToSegment(i, numbers[i]); // Display the number
+                _delay_ms(500); // it holds the number on display 500ms
             }
+
+            checkWin(numbers, 2); // checks for win state 
+
+            checkGameOver(); // it checks if the game is over 
         } else if (bit_is_clear(PINC, BUTTON2)) {
-            printf("Your choice is: 3 slots display.\n");
-            // Blink LEDs three times
-            for (int i = 0; i < 3; i++) {
-                lightUpAllLeds();
-                _delay_ms(500);
-                lightDownAllLeds();
-                _delay_ms(500);
-            }
+            // Similar logic for 3 and 4 slots display
         } else if (bit_is_clear(PINC, BUTTON3)) {
-            printf("Your choice is: 4 slots display.\n");
-            // Blink LEDs four times
-            for (int i = 0; i < 4; i++) {
-                lightUpAllLeds();
-                _delay_ms(500);
-                lightDownAllLeds();
-                _delay_ms(500);
-            }
+            // Similar logic for 4 slots display
         }
+        writeNumber(coins); // Update coin display
     }
 
     return 0;

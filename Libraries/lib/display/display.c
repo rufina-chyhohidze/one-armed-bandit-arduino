@@ -134,6 +134,9 @@ void clearDisplay()
     blankSegment(4);
 }
 
+
+///////////////////// functions for the game 
+
 void writeWelcomeToTheUserOnDisplay(){
     for(int i = 0; i <50; i++){
         writeCharToSegment(0,'o');
