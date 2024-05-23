@@ -24,3 +24,4 @@ void  writeString( const char* str);
 void  writeStringAndWait( const char*  str,  int  delay);
 void blankSegment(uint8_t segment);
 void clearDisplay();
+void writeWelcomeToTheUserOnDisplay();
