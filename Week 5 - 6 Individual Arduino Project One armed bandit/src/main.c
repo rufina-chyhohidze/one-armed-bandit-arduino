@@ -73,20 +73,91 @@ void printGameRules() {
 
 }
 
+void writeWelcomeToTheUserOnDisplay(){
+    for(int i = 0; i <50; i++){
+        writeCharToSegment(0,'o');
+        _delay_ms(5);
+         writeCharToSegment(1,'n');
+        _delay_ms(5);
+         writeCharToSegment(2,'e');
+        _delay_ms(5);
+         writeCharToSegment(3,' ');
+        _delay_ms(5);
+    }
+
+for(int i = 0; i <40; i++){
+        writeCharToSegment(0,'a');
+        _delay_ms(5);
+         writeCharToSegment(1,'r');
+        _delay_ms(5);
+         writeCharToSegment(2,'m');
+        _delay_ms(5);
+         writeCharToSegment(3,'e');
+        _delay_ms(5);
+    
+}
+for(int i = 0; i <40; i++){
+        writeCharToSegment(0,'e');
+        _delay_ms(5);
+         writeCharToSegment(1,'d');
+        _delay_ms(5);
+         writeCharToSegment(2,' ');
+        _delay_ms(5);
+         writeCharToSegment(3,' ');
+        _delay_ms(5);
+    }
+    for(int i = 0; i <40; i++){
+        writeCharToSegment(0,'b');
+        _delay_ms(5);
+         writeCharToSegment(1,'a');
+        _delay_ms(5);
+         writeCharToSegment(2,'n');
+        _delay_ms(5);
+         writeCharToSegment(3,'d');
+        _delay_ms(5);
+    }
+    for(int i = 0; i <40; i++){
+        writeCharToSegment(0,'i');
+        _delay_ms(5);
+         writeCharToSegment(1,'t');
+        _delay_ms(5);
+         writeCharToSegment(2,' ');
+        _delay_ms(5);
+         writeCharToSegment(3,' ');
+        _delay_ms(5);
+    }
+    for(int i = 0; i <40; i++){
+        writeCharToSegment(0,' ');
+        _delay_ms(5);
+        writeCharToSegment(1,'H');
+        _delay_ms(5);
+        writeCharToSegment(2,'i');
+        _delay_ms(5);
+        writeCharToSegment(3,' ');
+        _delay_ms(5);
+        
+    }
+}
+
+
+
 int main() {
     initUSART();
     initGame();
+    initDisplay();
+    writeWelcomeToTheUserOnDisplay();
     DDRB |= _BV(PB2); //controlling an LED
     DDRB |= _BV(PB3);
     DDRB |= _BV(PB4);
     DDRB |= _BV(PB5);
     
+    
     printf("----------------------------WELCOME TO ONE ARMED BANDIT!----------------\n ");
-    _delay_ms(1000);
+    _delay_ms(900);
     printf("-----------------------------------------------------------------------\n ");
-    _delay_ms(1000);
+    _delay_ms(900);
     printf("---$_$_$_$_$_$_$_$_$_$_$_$_$_$ RULES TO PLAY: _$_$_$_$_$_$_$_$_$_$_$_$\n ");
-    _delay_ms(1000);
+    _delay_ms(900);
     printGameRules();
     
      while (1) {
