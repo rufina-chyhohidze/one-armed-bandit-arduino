@@ -202,3 +202,20 @@ for(int i = 0; i <40; i++){
         
     }
 }
+
+void rollOnDisplay(){
+    for(int i = 0; i <50; i++){
+        writeCharToSegment(0,'R');
+        _delay_ms(5);
+         writeCharToSegment(1,'O');
+        _delay_ms(10);
+         writeCharToSegment(2,'L');
+        _delay_ms(15);
+         writeCharToSegment(3,'L');
+         _delay_ms(15);
+    }
+    for(int i = 0; i <30; i++){
+        writeCharToSegment(3,' ');
+        _delay_ms(5);
+    }
+ }

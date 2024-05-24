@@ -25,7 +25,7 @@
 #define BUTTON3 PC3
 
 //using macro's to express the constant values 
-#define START_COINS 2 //i decreased start coins, to play faster for a moment.
+#define START_COINS 3 //i decreased start coins, to play faster for a moment.
 #define MAX_COINS 9999
 #define WIN_AMOUNT_2 5
 #define WIN_AMOUNT_3 50
@@ -150,8 +150,6 @@ void checkWin(int numbers[], int slotCount) {
     displayCoins(coins); // Update coin display
 }
 
-
-
 int main() {
     // Initialization
     initUSART();
@@ -160,6 +158,8 @@ int main() {
     srand(time(NULL));
     writeWelcomeToTheUserOnDisplay();
     DDRB |= _BV(PB2); // Enable LED control
+    
+    
 
     // Print game rules
     printf("----------------------------WELCOME TO ONE ARMED BANDIT!----------------\n ");
@@ -177,12 +177,15 @@ int main() {
             coins--; // substract one coin for the bet
             displayCoins(coins); // Update coin display
             printf("We are starting the game! Your current bank is: %d coins\n", coins);
+            //rollOnDisplay();
 
-            // Blink LEDs twice
+            //this loop makes 2 leds blinks twice,and then it generate numbers.
+            for(int i=0;i<2;i++){
             lightUpMultipleLeds(0b0011);
-            _delay_ms(1000);
+            _delay_ms(200);
             lightDownAllLeds();
-            _delay_ms(1000);
+            _delay_ms(200);
+            }
 
             // Generate and display random numbers for 2 slots
             int numbers[2];
