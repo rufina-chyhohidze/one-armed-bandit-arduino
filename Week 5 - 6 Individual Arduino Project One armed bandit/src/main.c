@@ -110,6 +110,8 @@ void displayRandomNumbers(int slotCount) {
 void checkGameOver() {
     if (coins <= 0) {
         printf("Game over! You have run out of coins.\n");
+        _delay_ms(2000);
+        printf("Press the RESTART button to try your luck again!");
         while (1) {
             //place for displaying loss
             writeCharToSegment(0,'l');
@@ -119,6 +121,8 @@ void checkGameOver() {
         }
     } else if (coins >= MAX_COINS) {
         printf("Congratulations! Bank break! You have reached the maximum coins.\n");
+        _delay_ms(1000);
+        printf("Press the RESTART button to try your luck again!");
         while (1) {
            //shows winning 7777!!!
             writeNumber(7777);
@@ -143,7 +147,7 @@ void checkWin(int numbers[], int slotCount) {
         winAmount = (slotCount == 2) ? WIN_AMOUNT_2 : (slotCount == 3) ? WIN_AMOUNT_3 : WIN_AMOUNT_4;
         coins += winAmount; // Add the win amount to coins
         printf("Congratulations! You won %d coins!\n", winAmount);
-        // i will play  victory sound here
+        // i will play victory sound here
     } else {
         printf("Better luck next time!\n");
     }
@@ -159,7 +163,6 @@ int main() {
     srand(time(NULL));
     writeWelcomeToTheUserOnDisplay();
     DDRB |= _BV(PB2); // Enable LED control
-    
     
 
     // Print game rules
@@ -197,7 +200,6 @@ int main() {
             }
             checkWin(numbers, 2); // checks for win state, 2 same numbers in a ROW!
             checkGameOver(); // it checks if the game is over 
-            
         } else if (bit_is_clear(PINC, BUTTON2)) {
             //similar pattern for 3 slots 
              printf("Your choice is: 3 slots display.\n");
