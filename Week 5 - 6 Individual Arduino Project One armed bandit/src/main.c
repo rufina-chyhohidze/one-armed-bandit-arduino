@@ -31,14 +31,19 @@
 #define WIN_AMOUNT_3 50
 #define WIN_AMOUNT_4 500
 
-#define C5 523.250 
-#define D5 587.330 
-#define E5 659.250 
-#define F5 698.460 
-#define G5 783.990 
-#define A5 880.00 
-#define B5 987.770 
-#define C6 1046.500 
+//DEFINING NOTES 
+#define C4  261.63
+#define D4  293.66
+#define E4  329.63
+#define F4  349.23
+#define G4  392.00
+#define A4  440.00
+#define B4  493.88
+#define C5  523.25
+#define D5  587.33
+#define E5  659.25
+#define F5  698.46
+#define G5  783.99
 #define DURATION 150 
 
 
@@ -56,18 +61,15 @@ typedef struct {
 const int ledPins[] = {LED1, LED2, LED3, LED4};
 const int buttonPins[] = {BUTTON1, BUTTON2, BUTTON3};
 
-
 void victorySound() {
-  float  frequencies [] = {C5, D5, E5, C5, C5, D5, E5, C5, E5, F5, G5}; // C D E C twice, followed by E F G once
+  float  frequencies [] = {C4, E4, G4, C5, C5, G4, E4, C4, G4, A4, B4, C5, G4, E4, D4, C4}; // C D E C twice, followed by E F G once
 enableBuzzer (); 
 for ( int  note = 0 ; note < 8 ; note ++ ) 
 { 
   playTones ( frequencies [ note ], DURATION ); 
  custom_delay_us(150*1000); //wait 150 ms between the notes 
-} 
+ } 
 }
-
-
 
 void initGame() {
     // I plan to initialize LEDs, buttons, etc. in this function
@@ -124,7 +126,7 @@ void displayRandomNumbers(int slotCount) {
         int winAmount = (slotCount == 2) ? WIN_AMOUNT_2 : (slotCount == 3) ? WIN_AMOUNT_3 : WIN_AMOUNT_4;
         coins += winAmount;
         printf("Congratulations! You won %d coins!\n", winAmount);
-        victorySound();
+        //victorySound();
     }
 
     displayCoins(coins);
@@ -148,9 +150,12 @@ void checkGameOver() {
         printf("Congratulations! Bank break! You have reached the maximum coins.\n");
         _delay_ms(1000);
         printf("Press the RESTART button to try your luck again!");
+        victorySound(); 
         while (1) {
            //shows winning 7777!!!
             writeNumber(7777);
+           
+            
         }
     }
 }
@@ -172,7 +177,6 @@ void checkWin(int numbers[], int slotCount) {
         winAmount = (slotCount == 2) ? WIN_AMOUNT_2 : (slotCount == 3) ? WIN_AMOUNT_3 : WIN_AMOUNT_4;
         coins += winAmount; // Add the win amount to coins
         printf("Congratulations! You won %d coins!\n", winAmount);
-        victorySound(); 
     } else {
         printf("Better luck next time!\n");
     }
