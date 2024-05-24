@@ -31,6 +31,17 @@
 #define WIN_AMOUNT_3 50
 #define WIN_AMOUNT_4 500
 
+#define C5 523.250 
+#define D5 587.330 
+#define E5 659.250 
+#define F5 698.460 
+#define G5 783.990 
+#define A5 880.00 
+#define B5 987.770 
+#define C6 1046.500 
+#define DURATION 150 
+
+
 #define MAX_GAME_STATES 10
 int coins = START_COINS;
 
@@ -44,6 +55,19 @@ typedef struct {
 
 const int ledPins[] = {LED1, LED2, LED3, LED4};
 const int buttonPins[] = {BUTTON1, BUTTON2, BUTTON3};
+
+
+void victorySound() {
+  float  frequencies [] = {C5, D5, E5, C5, C5, D5, E5, C5, E5, F5, G5}; // C D E C twice, followed by E F G once
+enableBuzzer (); 
+for ( int  note = 0 ; note < 8 ; note ++ ) 
+{ 
+  playTones ( frequencies [ note ], DURATION ); 
+ custom_delay_us(150*1000); //wait 150 ms between the notes 
+} 
+}
+
+
 
 void initGame() {
     // I plan to initialize LEDs, buttons, etc. in this function
@@ -100,11 +124,12 @@ void displayRandomNumbers(int slotCount) {
         int winAmount = (slotCount == 2) ? WIN_AMOUNT_2 : (slotCount == 3) ? WIN_AMOUNT_3 : WIN_AMOUNT_4;
         coins += winAmount;
         printf("Congratulations! You won %d coins!\n", winAmount);
-        //victorySound();
+        victorySound();
     }
 
     displayCoins(coins);
 }
+
 
 //function to chech if the game is over 
 void checkGameOver() {
@@ -147,13 +172,14 @@ void checkWin(int numbers[], int slotCount) {
         winAmount = (slotCount == 2) ? WIN_AMOUNT_2 : (slotCount == 3) ? WIN_AMOUNT_3 : WIN_AMOUNT_4;
         coins += winAmount; // Add the win amount to coins
         printf("Congratulations! You won %d coins!\n", winAmount);
-        // i will play victory sound here
+        victorySound(); 
     } else {
         printf("Better luck next time!\n");
     }
 
     displayCoins(coins); // Update coin display
 }
+
 
 int main() {
     // Initialization
@@ -259,4 +285,21 @@ int main() {
 }
 
 
+/*
+    for(int i = 4; i>-1;i--){
+        enabledLed(i)
+    }
+    while(1){
+        for(int i=4;i>-1;i--){
+            lightUpLed(i);
+            _delay_ms(1000);
+        }
+         for(int i=4;i>-1;i--){
+            lightUpLed(i);
+            _delay_ms(1000);
+        }
+        break;
+
+    }
+    */
 

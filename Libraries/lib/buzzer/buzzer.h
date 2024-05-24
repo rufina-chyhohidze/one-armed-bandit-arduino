@@ -6,7 +6,8 @@
 
 void enableBuzzer();
 void disableBuzzer();
-void playTone(float frequency, uint32_t duration);
+void playTones(float frequency, uint32_t duration);
 void playMusic(float *notes, uint32_t *durations, uint8_t numNotes);
+void custom_delay_us(uint32_t us);
 
 #endif

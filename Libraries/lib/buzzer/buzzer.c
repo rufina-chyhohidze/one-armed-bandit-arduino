@@ -4,16 +4,22 @@ void enableBuzzer() {
     DDRD |= (1 << PD3); // Buzzer is connected to PD3
 }
 
-
-void playTone(float frequency, uint32_t duration) {
-    uint32_t periodInMicro = (uint32_t)(1000000 / frequency); // Calculate the period in microseconds from the frequency
-    uint32_t durationInMicro = duration * 1000; // We express duration in microseconds
-    for (uint32_t time = 0; time < durationInMicro; time += periodInMicro) {
-        PORTD &= ~(1 << PD3); // Turn the buzzer on
-        _delay_us(periodInMicro / 2); // Wait for the half of the period
-        PORTD |= (1 << PD3); // Turn the buzzer off
-        _delay_us(periodInMicro / 2); // Wait again for half of the period
+//  I created a custom delay, because with the example form Canvas i often had problems.
+void custom_delay_us(uint32_t us) {
+    while(us--) {
+        _delay_us(1);
     }
+}
+
+void playTones(float frequency, uint32_t duration) { 
+    uint32_t periodInMicro = (uint32_t)(1000000 / frequency); // Calculate the period in microseconds from the frequency 
+    uint32_t durationInMicro = duration * 1000; // We express duration in microseconds 
+    for (uint32_t time = 0; time < durationInMicro; time += periodInMicro) { 
+        PORTD &= ~(1 << PD3); // Turn the buzzer on 
+        custom_delay_us(periodInMicro / 2); // Wait for half of the period 
+        PORTD |= (1 << PD3); // Turn the buzzer off 
+        custom_delay_us(periodInMicro / 2); // Wait again for half of the period 
+    } 
 }
 
 void disableBuzzer() {
@@ -26,7 +32,7 @@ void playMusic(float *notes, uint32_t *durations, uint8_t numNotes) {
     for (uint8_t i = 0; i < numNotes; i++) {
         float frequency = notes[i];
         uint32_t duration = durations[i];
-        playTone(frequency, duration); // Play each note with its corresponding duration
+        playTones(frequency, duration); // Play each note with its corresponding duration
         _delay_ms(100); // Add a small delay between notes
     }
 }
