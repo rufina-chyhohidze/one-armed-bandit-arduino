@@ -25,7 +25,7 @@
 #define BUTTON3 PC3
 
 //using macro's to express the constant values 
-#define START_COINS 50
+#define START_COINS 2 //i decreased start coins, to play faster for a moment.
 #define MAX_COINS 9999
 #define WIN_AMOUNT_2 5
 #define WIN_AMOUNT_3 50
@@ -111,17 +111,19 @@ void checkGameOver() {
     if (coins <= 0) {
         printf("Game over! You have run out of coins.\n");
         while (1) {
-            // Display scrolling loss message
+            //place for displaying loss
+            writeCharToSegment(0,'l');
+            writeCharToSegment(1,'o');
+            writeCharToSegment(2,'s');
+            writeCharToSegment(3,'s');
         }
     } else if (coins >= MAX_COINS) {
         printf("Congratulations! Bank break! You have reached the maximum coins.\n");
         while (1) {
-            // Display scrolling win message
+            // scrolling win
         }
     }
 }
-
-//method to put in lib
 
 void checkWin(int numbers[], int slotCount) {
     int winAmount = 0;
@@ -172,7 +174,7 @@ int main() {
     while (1) {
         if (bit_is_clear(PINC, BUTTON1)) {
             printf("Your choice is: 2 slots display.\n");
-            coins--; // Deduct one coin for the bet
+            coins--; // substract one coin for the bet
             displayCoins(coins); // Update coin display
             printf("We are starting the game! Your current bank is: %d coins\n", coins);
 
@@ -187,17 +189,62 @@ int main() {
             for (int i = 0; i < 2; i++) {
                 numbers[i] = rand() % 10; // Generate random number between 0 and 9
                 writeNumberToSegment(i, numbers[i]); // Display the number
-                _delay_ms(500); // it holds the number on display 500ms
+                _delay_ms(800); // it holds the number on display 500ms
             }
 
-            checkWin(numbers, 2); // checks for win state 
+            checkWin(numbers, 2); // checks for win state, 2 same numbers in a ROW!
             checkGameOver(); // it checks if the game is over 
         } else if (bit_is_clear(PINC, BUTTON2)) {
-            //similar for 3 slots 
+            //similar pattern for 3 slots 
+             printf("Your choice is: 3 slots display.\n");
+            coins--; // substract one coin for the bet
+            displayCoins(coins); // Update coin display
+            printf("We are starting the game! Your current bank is: %d coins\n", coins);
+
+            // Blink three leds
+            lightUpMultipleLeds(0b0111);
+            _delay_ms(1000);
+            lightDownAllLeds();
+            _delay_ms(1000);
+
+            // Generate and display random numbers for 2 slots
+            int numbers[3];
+            for (int i = 0; i < 3; i++) {
+                numbers[i] = rand() % 10; // Generate random number between 0 and 9
+                writeNumberToSegment(i, numbers[i]); // Display the number
+                _delay_ms(800); // it holds the number on display 500ms
+            }
+
+            checkWin(numbers, 2); // checks for win state,for three slots display,should be 2 or
+            checkWin(numbers, 3);// 3 same numbers in a ROW!
+            checkGameOver();  
         } else if (bit_is_clear(PINC, BUTTON3)) {
-            // Similar logic here for 4 slots display
+               printf("Your choice is: 4 slots display.\n");
+            coins--; // substract one coin for the bet
+            displayCoins(coins); // Update coin display
+            printf("We are starting the game! Your current bank is: %d coins\n", coins);
+
+            // Blink 4 leds
+            lightUpMultipleLeds(0b1111);
+            _delay_ms(1000);
+            lightDownAllLeds();
+            _delay_ms(1000);
+
+            // Generate and display random numbers for 2 slots
+            int numbers[4];
+            for (int i = 0; i < 4; i++) {
+                numbers[i] = rand() % 10; // Generate random number between 0 and 9
+                writeNumberToSegment(i, numbers[i]); // Display the number
+                _delay_ms(800); // it holds the number on display 500ms
+            }
+
+            checkWin(numbers, 2); // checks for win state,for three slots display,should be 2 or
+            checkWin(numbers, 3);// 3 same numbers in a ROW!
+            checkWin(numbers, 4);// 4 same numbers in a ROW!
+            checkGameOver();  
+            
         }
-        writeNumber(coins); // Update coin display
+        writeNumber(coins); 
     }
 
     return 0;
