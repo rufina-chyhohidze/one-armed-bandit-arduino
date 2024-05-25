@@ -156,7 +156,6 @@ void displayRandomNumbers(int slotCount) {
     if (win) {
         int winAmount = (slotCount == 2) ? WIN_AMOUNT_2 : (slotCount == 3) ? WIN_AMOUNT_3 : WIN_AMOUNT_4;
         coins += winAmount;
-        totalWins++;
         printf("Congratulations! You won %d coins!\n", winAmount);
         //victorySound();
     }

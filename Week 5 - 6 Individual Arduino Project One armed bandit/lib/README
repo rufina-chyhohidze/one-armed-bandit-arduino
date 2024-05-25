@@ -1,46 +1,65 @@
+One Armed Bandit Game README
 
-This directory is intended for project specific (private) libraries.
-PlatformIO will compile them to static libraries and link into executable file.
+Introduction
+Welcome to the One Armed Bandit game! This is a simple slot machine game implemented on an AVR microcontroller. Players can place bets and spin the reels to win coins. This README provides an overview of the game structure, libraries used, definitions, initialization steps, gameplay functions, and usage instructions.
+-----------------------------------------------------------------------------------------------------
+Game rules:
 
-The source code of each library should be placed in an own separate directory
-("lib/your_library_name/[here are source files]").
+! Place your bet: Press the right button once to bet 1 coin per turn. LED displays light up, and a sound signifies the bet.
 
-For example, see a structure of the following two libraries `Foo` and `Bar`:
+! Activate the slot machine: Press the right button again to start the game. Watch as random numbers appear 
+and jump on the displays.
 
-|--lib
-|  |
-|  |--Bar
-|  |  |--docs
-|  |  |--examples
-|  |  |--src
-|  |     |- Bar.c
-|  |     |- Bar.h
-|  |  |- library.json (optional, custom build options, etc) https://docs.platformio.org/page/librarymanager/config.html
-|  |
-|  |--Foo
-|  |  |- Foo.c
-|  |  |- Foo.h
-|  |
-|  |- README --> THIS FILE
-|
-|- platformio.ini
-|--src
-   |- main.c
+! Win big: If all displays show the same number, hear the victory sound and win coins! Win 5 for 2 displays, 50 for 3, or 500 for 4.
 
-and a contents of `src/main.c`:
-```
-#include <Foo.h>
-#include <Bar.h>
+! Game over: Lose all your coins, and the game stops with a loss message. Reach 9999 coins, and the game ends with a "bank break" message.
+----------------------------------------------------------------------------------------------------
+Game Structure
+The game consists of a slot machine interface with buttons for selecting the number of slots to play (2, 3, or 4) and a display to show the results. Players place bets, spin the reels, and win coins for matching combinations of numbers on the slots. The game ends when the player runs out of coins or reaches the maximum coin limit.
+-----------------------------------------------------------------------------------------------------
+Libraries Used:
+The program utilizes various libraries to interface with hardware components and perform tasks such as delay generation, serial communication, and interrupt handling:
 
-int main (void)
-{
-  ...
-}
-
-```
-
-PlatformIO Library Dependency Finder will find automatically dependent
-libraries scanning project source files.
-
-More information about PlatformIO Library Dependency Finder
-- https://docs.platformio.org/page/librarymanager/ldf.html
+avr/io.h: AVR standard IO library for I/O port definitions
+avr/interrupt.h: AVR interrupt handling library for managing interrupts
+util/delay.h: AVR delay library for generating delays
+stdio.h: Standard Input/Output library for formatted input/output operations
+stdlib.h: Standard library for general utilities
+potentio.h: Custom library for interfacing with a potentiometer
+led.h: Custom library for controlling LEDs
+buttons.h: Custom library for handling buttons
+buzzer.h: Custom library for controlling a buzzer
+display.h: Custom library for controlling a display
+usart.h: Custom library for USART communication
+string.h: Standard library for string operations
+time.h: Standard library for time and date operations
+-----------------------------------------------------------------------------------------------------
+Definitions
+Several constants and definitions are used throughout the program:
+*Pins connected to LEDs, buttons, and the buzzer
+*Initial and maximum number of coins
+*Coin rewards for winning combinations
+*Note frequencies and duration for sound effects
+-----------------------------------------------------------------------------------------------------
+Initialization
+initTimer(): Initializes Timer0 with a prescaler of 1024 and enables overflow interrupt. This timer is used to track the game time.
+ISR(TIMER0_OVF_vect): Interrupt service routine for Timer0 overflow, increments the game time in seconds.
+-----------------------------------------------------------------------------------------------------
+Gameplay Functions:
+*displayGameTime(): Displays the total game time in seconds.
+*victorySound() and lossSound(): Functions to play victory and loss sounds respectively.
+*initGame(): Initializes game components such as LEDs, buttons, etc.
+*printGameRules(): Prints game rules to the serial monitor.
+*displayCoins(coins): Displays the current number of coins.
+*displayRandomNumbers(slotCount): Generates random numbers and displays them on the screen, checks for win combinations.
+*checkGameOver(): Checks if the game is over due to insufficient coins or reaching the maximum coin *limit.
+*checkWin(numbers, slotCount): Checks if the player has won based on the displayed numbers.
+-----------------------------------------------------------------------------------------------------
+Main Function:
+main() function:
+*Initializes the game and necessary components.
+*Prints the welcome message and game rules as well as current amount of money user have and the total
+game play time in the end of the program.
+*Enters an infinite loop where the player can choose the number of slots to play.
+*Handles button presses, deducts coins for bets, generates random numbers, checks for wins, and *updates the game state accordingly.
+-----------------------------------------------------------------------------------------------------
