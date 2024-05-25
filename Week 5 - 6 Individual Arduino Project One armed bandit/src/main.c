@@ -25,9 +25,9 @@
 #define BUTTON3 PC3
 
 //using macro's to express the constant values 
-#define START_COINS 7 //i decreased start coins, to play faster for a moment.
-#define MAX_COINS 8
-#define WIN_AMOUNT_2 10
+#define START_COINS 25 //i decreased start coins, to play faster for a moment.
+#define MAX_COINS 25
+#define WIN_AMOUNT_2 5
 #define WIN_AMOUNT_3 50
 #define WIN_AMOUNT_4 500
 
@@ -45,10 +45,10 @@
 #define F5  698.46
 #define G5  783.99
 #define DURATION 150 
-
-
 #define MAX_GAME_STATES 10
+
 int coins = START_COINS;
+volatile unsigned long gameTimeSeconds = 0; 
 
 typedef struct {
     int sequence;
@@ -61,6 +61,26 @@ typedef struct {
 const int ledPins[] = {LED1, LED2, LED3, LED4};
 const int buttonPins[] = {BUTTON1, BUTTON2, BUTTON3};
 
+void initTimer() {
+    TCCR0B |= (1 << CS02) | (1 << CS00); // sets prescaler 1024, (1024 / 16,000,000) seconds,a 16 MHz clock frequency.
+    TIMSK0 |= (1 << TOIE0); // enable overflow interrupt
+    sei(); 
+}
+
+/*Timer 0 will count up from 0 to its maximum value
+ (255 for an 8-bit timer)
+  and then overflow back to 0.
+ Each time it overflows, this ISR is triggered*/
+ISR(TIMER0_OVF_vect) {
+    gameTimeSeconds++;
+}
+
+//this function 
+void displayGameTime() {
+    int seconds = gameTimeSeconds / 60;
+    printf("\nTotal game time: %d seconds\n", seconds);
+}
+
 void victorySound() {
   float  frequencies [] = {C4, E4, G4, C5, C5, G4, E4, C4, G4, A4, B4, C5, G4, E4, D4, C4}; // C D E C twice, followed by E F G once
 enableBuzzer (); 
@@ -70,6 +90,17 @@ for ( int  note = 0 ; note < 8 ; note ++ )
  custom_delay_us(150*1000); //wait 150 ms between the notes 
  } 
 }
+
+void lossSound() {
+    float frequencies[] = {C5, B4, A4, G4, F4, E4, D4, C4}; // Descending pattern for loss sound
+    int numNotes = sizeof(frequencies) / sizeof(frequencies[0]);
+    enableBuzzer();
+    for (int note = 0; note < numNotes; note++) {
+        playTones(frequencies[note], DURATION);
+        custom_delay_us(150 * 1000); // Wait 150 ms between the notes
+    }
+}
+
 
 void initGame() {
     // I plan to initialize LEDs, buttons, etc. in this function
@@ -125,6 +156,7 @@ void displayRandomNumbers(int slotCount) {
     if (win) {
         int winAmount = (slotCount == 2) ? WIN_AMOUNT_2 : (slotCount == 3) ? WIN_AMOUNT_3 : WIN_AMOUNT_4;
         coins += winAmount;
+        totalWins++;
         printf("Congratulations! You won %d coins!\n", winAmount);
         //victorySound();
     }
@@ -137,8 +169,10 @@ void displayRandomNumbers(int slotCount) {
 void checkGameOver() {
     if (coins <= 0) {
         printf("Game over! You have run out of coins.\n");
+        lossSound();
         _delay_ms(2000);
         printf("Press the RESTART button to try your luck again!");
+         displayGameTime(); // Display total game time
         while (1) {
             //place for displaying loss
             writeCharToSegment(0,'l');
@@ -150,6 +184,7 @@ void checkGameOver() {
         printf("Congratulations! Bank break! You have reached the maximum coins.\n");
         _delay_ms(1000);
         printf("Press the RESTART button to try your luck again!");
+         displayGameTime(); // display total playing time in seconds in the end of the game.
         victorySound(); 
         while (1) {
            //shows winning 7777!!!
@@ -190,9 +225,10 @@ int main() {
     initUSART();
     initGame();
     initDisplay();
+    initTimer(); //enables timer routine and ISR
     srand(time(NULL));
     writeWelcomeToTheUserOnDisplay();
-    DDRB |= _BV(PB2); // Enable LED control
+    DDRB |= _BV(PB2); 
     
 
     // Print game rules
@@ -212,6 +248,7 @@ int main() {
             displayCoins(coins); // Update coin display
             printf("We are starting the game! Your current bank is: %d coins\n", coins);
             rollOnDisplay();
+            
 
             //this loop makes 2 leds blinks twice,and then it generate numbers.
             for(int i=0;i<2;i++){
@@ -227,8 +264,10 @@ int main() {
                 numbers[i] = rand() % 10; // Generate random number between 0 and 9
                 writeNumberToSegment(i, numbers[i]); // Display the number
                 _delay_ms(800); // it holds the number on display 500ms
+                
             }
             checkWin(numbers, 2); // checks for win state, 2 same numbers in a ROW!
+            
             checkGameOver(); // it checks if the game is over 
         } else if (bit_is_clear(PINC, BUTTON2)) {
             //similar pattern for 3 slots 
