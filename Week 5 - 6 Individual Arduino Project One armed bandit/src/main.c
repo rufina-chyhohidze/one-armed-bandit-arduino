@@ -1,3 +1,10 @@
+//TODO:IMPLEMENT POTENTIOMETER 
+//TODO:IMPLEMENT CALLOC AND MALLOC 
+//TODO:EXPAND THE README FILE
+//TODO:Use of pointers and dynamic memory allocation
+//Parameter “by value” and “by reference”
+
+
 //at first including each library,that i will use in this project.
 #include <avr/io.h>
 #include <avr/interrupt.h>
