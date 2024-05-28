@@ -32,8 +32,8 @@
 #define BUTTON3 PC3
 
 //using macro's to express the constant values 
-#define START_COINS 25 //i decreased start coins, to play faster for a moment.
-#define MAX_COINS 25
+#define START_COINS 1000 //i decreased start coins, to play faster for a moment.
+#define MAX_COINS 2000
 #define WIN_AMOUNT_2 5
 #define WIN_AMOUNT_3 50
 #define WIN_AMOUNT_4 500
@@ -55,6 +55,7 @@
 #define MAX_GAME_STATES 10
 
 int coins = START_COINS;
+
 volatile unsigned long gameTimeSeconds = 0; 
 
 typedef struct {
@@ -224,10 +225,33 @@ void checkWin(int numbers[], int slotCount) {
 
     displayCoins(coins); // Update coin display
 }
+ /*int bet = 1;
+  void makeBet(){
+          uint16_t adcValue = ADC;
+    int displayValue = ((adcValue * 20)/1024)+ 1  ; // Scale to range 1-10
+    writeNumber(displayValue); // Display the scaled value
+    printf("Your bet is: %d\n", displayValue); // Print the bet value
+    
+    // Check if the display value exceeds the maximum bet
+    if (displayValue > coins) {
+        printf("Insufficient coins for this bet! Setting the maximum bet.\n");
+        displayValue = coins; // Set the bet amount to the maximum coins
+    }
+    
+    bet = displayValue; // Update the bet value
+    coins -= bet; // Subtract the bet from current coins
+
+    // Display the current coins after the bet
+    displayCoins(coins);
+        //_delay_ms(0.100);
+    };
+    */
+
 
 
 int main() {
     // Initialization
+    initADC();
     initUSART();
     initGame();
     initDisplay();
@@ -245,12 +269,18 @@ int main() {
     printf("---$_$_$_$_$_$_$_$_$_$_$_$_$_$ RULES TO PLAY: _$_$_$_$_$_$_$_$_$_$_$_$\n ");
     _delay_ms(900);
     printGameRules();
+    
+  
 
     
     while (1) {
+        
+        
         if (bit_is_clear(PINC, BUTTON1)) {
             printf("Your choice is: 2 slots display.\n");
-            coins--; // substract one coin for the bet
+            //makeBet();
+            coins--;
+            //coins-= bet; // substract one coin for the bet
             displayCoins(coins); // Update coin display
             printf("We are starting the game! Your current bank is: %d coins\n", coins);
             rollOnDisplay();
@@ -273,7 +303,6 @@ int main() {
                 
             }
             checkWin(numbers, 2); // checks for win state, 2 same numbers in a ROW!
-            
             checkGameOver(); // it checks if the game is over 
         } else if (bit_is_clear(PINC, BUTTON2)) {
             //similar pattern for 3 slots 
