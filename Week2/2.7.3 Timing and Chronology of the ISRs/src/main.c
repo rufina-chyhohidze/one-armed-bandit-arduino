@@ -77,3 +77,21 @@ int main() {
     }
     return 0; 
 } 
+
+/* 
+ Questions:
+    - Does LED PB2 continue to flash when the ISR has started?
+        No,but it remains enabled
+
+    - Does LED D1 and D2 continue to flash after the ISR has been handled (ie is it over)?
+        No, when the ISR is called, they stopped to flash together.
+
+    - If LED D1 and D2 were on before starting the ISR, are they still on after running the ISR?
+        - Yes,theyre enabled.
+
+    - If LED D1 and D2 were off before starting the ISR, are they still off after running the ISR?
+        - Its going to be only one, from the moment we start the second cycle.
+
+    - If LEDs D1 and D2 were on for only 0.5 seconds before starting the ISR, will they keep their status for 1.5 seconds after performing the ISR?
+        - PB2 will always remain on.
+

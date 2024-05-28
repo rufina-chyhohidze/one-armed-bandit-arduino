@@ -1,9 +1,3 @@
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include <util/delay.h>
-#include <buttons.h>
-#include <led.h>
-
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
