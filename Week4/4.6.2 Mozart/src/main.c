@@ -5,6 +5,7 @@
 #include "buzzer.h"
 #include "buttons.h"
 #include "usart.h"
+#define __DELAY_BACKWARD_COMPATIBLE__
 #include <util/delay.h>
 #include <string.h>
 
@@ -30,3 +31,15 @@ typedef struct {
     NOTE** notes;
     uint16_t length;
 } SONG;
+
+void playNote (NOTE* note) {
+    if (note->frequency == 0) {
+       _delay_us(note->duration); // Rest
+    } else {
+        playTones(note->frequency, note->duration);
+    }
+}
+
+void PlayTone (float frequency,uint32_t duration){
+  uint32_t periodInMicro = (uint32_t)(1000000 / frequency );// Calculate the period in microseconds from the frequency 
+}
