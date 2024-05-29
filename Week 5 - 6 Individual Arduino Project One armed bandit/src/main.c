@@ -98,7 +98,7 @@ enableBuzzer ();
 for ( int  note = 0 ; note < 8 ; note ++ ) 
 { 
   playTones ( frequencies [ note ], DURATION ); 
- custom_delay_us(150*1000); //wait 150 ms between the notes 
+ _delay_ms(50); //wait 50 ms between the notes 
  } 
 }
 
@@ -108,7 +108,7 @@ void lossSound() {
     enableBuzzer();
     for (int note = 0; note < numNotes; note++) {
         playTones(frequencies[note], DURATION);
-        custom_delay_us(150 * 1000); // Wait 150 ms between the notes
+        _delay_ms(50); // Wait 50 ms between the notes
     }
 }
 
@@ -262,8 +262,6 @@ int main() {
     writeWelcomeToTheUserOnDisplay();
     DDRB |= _BV(PB2); 
     
-
-     
    
     // Print game rules
     printf("----------------------------WELCOME TO ONE ARMED BANDIT!----------------\n ");
@@ -333,7 +331,6 @@ int main() {
             checkWin(numbers, 3);// 3 same numbers in a ROW!
             checkGameOver();  
         
-
         } else if (bit_is_clear(PINC, BUTTON3)) {
                printf("Your choice is: 4 slots display.\n");
             coins--; // substract one coin for the bet
