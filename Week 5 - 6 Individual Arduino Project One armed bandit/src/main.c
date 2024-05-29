@@ -4,10 +4,10 @@
 //TODO:Use of pointers and dynamic memory allocation
 //Parameter “by value” and “by reference”
 
-
 //at first including each library,that i will use in this project.
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#define __DELAY_BACKWARD_COMPATIBLE__
 #include <util/delay.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,8 +32,8 @@
 #define BUTTON3 PC3
 
 //using macro's to express the constant values 
-#define START_COINS 1000 //i decreased start coins, to play faster for a moment.
-#define MAX_COINS 2000
+#define START_COINS 5 //i decreased start coins, to play faster for a moment.
+#define MAX_COINS 5
 #define WIN_AMOUNT_2 5
 #define WIN_AMOUNT_3 50
 #define WIN_AMOUNT_4 500
@@ -52,6 +52,7 @@
 #define F5  698.46
 #define G5  783.99
 #define DURATION 150 
+
 #define MAX_GAME_STATES 10
 
 int coins = START_COINS;
@@ -69,6 +70,7 @@ typedef struct {
 const int ledPins[] = {LED1, LED2, LED3, LED4};
 const int buttonPins[] = {BUTTON1, BUTTON2, BUTTON3};
 
+
 void initTimer() {
     TCCR0B |= (1 << CS02) | (1 << CS00); // sets prescaler 1024, (1024 / 16,000,000) seconds,a 16 MHz clock frequency.
     TIMSK0 |= (1 << TOIE0); // enable overflow interrupt
@@ -79,6 +81,7 @@ void initTimer() {
  (255 for an 8-bit timer)
   and then overflow back to 0.
  Each time it overflows, this ISR is triggered*/
+
 ISR(TIMER0_OVF_vect) {
     gameTimeSeconds++;
 }
@@ -225,10 +228,11 @@ void checkWin(int numbers[], int slotCount) {
 
     displayCoins(coins); // Update coin display
 }
+
  /*int bet = 1;
   void makeBet(){
           uint16_t adcValue = ADC;
-    int displayValue = ((adcValue * 20)/1024)+ 1  ; // Scale to range 1-10
+    int displayValue = ((adcValue * 19)/1023)+ 1  ; // Scale to range 1-10
     writeNumber(displayValue); // Display the scaled value
     printf("Your bet is: %d\n", displayValue); // Print the bet value
     
@@ -243,12 +247,10 @@ void checkWin(int numbers[], int slotCount) {
 
     // Display the current coins after the bet
     displayCoins(coins);
-        //_delay_ms(0.100);
+        _delay_ms(0.100);
     };
     */
-
-
-
+ 
 int main() {
     // Initialization
     initADC();
@@ -261,6 +263,8 @@ int main() {
     DDRB |= _BV(PB2); 
     
 
+     
+   
     // Print game rules
     printf("----------------------------WELCOME TO ONE ARMED BANDIT!----------------\n ");
     _delay_ms(900);
@@ -269,10 +273,7 @@ int main() {
     printf("---$_$_$_$_$_$_$_$_$_$_$_$_$_$ RULES TO PLAY: _$_$_$_$_$_$_$_$_$_$_$_$\n ");
     _delay_ms(900);
     printGameRules();
-    
-  
 
-    
     while (1) {
         
         
@@ -284,6 +285,7 @@ int main() {
             displayCoins(coins); // Update coin display
             printf("We are starting the game! Your current bank is: %d coins\n", coins);
             rollOnDisplay();
+           
             
 
             //this loop makes 2 leds blinks twice,and then it generate numbers.
@@ -292,6 +294,7 @@ int main() {
             _delay_ms(200);
             lightDownAllLeds();
             _delay_ms(200);
+           
             }
 
             // Generate and display random numbers for 2 slots
@@ -311,7 +314,7 @@ int main() {
             displayCoins(coins); // Update coin display
             printf("We are starting the game! Your current bank is: %d coins\n", coins);
             rollOnDisplay();
-
+             
             //this loop blink 3 leds 3 times
             for(int i=0;i<3;i++){
             lightUpMultipleLeds(0b0111);
@@ -329,6 +332,7 @@ int main() {
             }
             checkWin(numbers, 3);// 3 same numbers in a ROW!
             checkGameOver();  
+        
 
         } else if (bit_is_clear(PINC, BUTTON3)) {
                printf("Your choice is: 4 slots display.\n");
@@ -354,12 +358,12 @@ int main() {
             }
             checkWin(numbers, 4);// 4 same numbers in a ROW!
             checkGameOver();  
-            
         }
         writeNumber(coins); 
     }
-
+    
     return 0;
+
 }
 
 
