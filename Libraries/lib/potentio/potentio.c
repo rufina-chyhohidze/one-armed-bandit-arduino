@@ -14,3 +14,16 @@ void initADC()
 //possibly then include: 
 // uint16_t value = 0;
 // value = ADC; //to read the result immediately
+
+int potentioMeterNumber() {
+ 
+    initADC();
+ 
+    ADCSRA |= ( 1 << ADSC );
+    loop_until_bit_is_clear( ADCSRA, ADSC );    //Wait until the conversion is completed
+    uint16_t value = ADC;   //Read the result
+ 
+    return value;
+ 
+ 
+}
