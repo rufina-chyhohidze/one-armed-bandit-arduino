@@ -63,3 +63,18 @@ game play time in the end of the program.
 *Enters an infinite loop where the player can choose the number of slots to play.
 *Handles button presses, deducts coins for bets, generates random numbers, checks for wins, and *updates the game state accordingly.
 -----------------------------------------------------------------------------------------------------
+initGameState function:
+
+It allocates memory for the GameState structure using malloc.
+Checks if the memory allocation was successful. If not, it prints an error message and exits the program.
+Initializes the coins member of the GameState structure to the starting amount defined as START_COINS.
+Allocates memory for the displayValues array based on the number of slots (slotCount) multiplied by the size of an integer.
+Checks if the memory allocation for displayValues was successful. If not, it prints an error message, frees the previously allocated memory, and exits the program.
+Initializes each element of the displayValues array to 0.
+Finally, it returns a pointer to the initialized GameState structure.
+
+freeGameState function:
+
+It first checks if the provided state pointer is not NULL.
+Frees the memory allocated for the displayValues array using free.
+Frees the memory allocated for the GameState structure itself using free.
