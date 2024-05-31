@@ -135,10 +135,10 @@ void clearDisplay()
 }
 
 
-///////////////////// functions for the game 
+////////// functions for the game 
 
 void writeWelcomeToTheUserOnDisplay(){
-    for(int i = 0; i <50; i++){
+    for(int i = 0; i <15; i++){
         writeCharToSegment(0,'o');
         _delay_ms(5);
          writeCharToSegment(1,'n');
@@ -148,8 +148,77 @@ void writeWelcomeToTheUserOnDisplay(){
          writeCharToSegment(3,' ');
         _delay_ms(5);
     }
-
-for(int i = 0; i <40; i++){
+ 
+        for(int i = 0; i <15; i++){
+        writeCharToSegment(0,'n');
+        _delay_ms(5);
+         writeCharToSegment(1,'e');
+        _delay_ms(5);
+         writeCharToSegment(2,' ');
+        _delay_ms(5);
+         writeCharToSegment(3,' ');
+        _delay_ms(5);
+    }
+ 
+        for(int i = 0; i <15; i++){
+        writeCharToSegment(0,'e');
+        _delay_ms(5);
+         writeCharToSegment(1,' ');
+        _delay_ms(5);
+         writeCharToSegment(2,' ');
+        _delay_ms(5);
+         writeCharToSegment(3,' ');
+        _delay_ms(5);
+      }
+ 
+      
+        for(int i = 0; i <15; i++){
+        writeCharToSegment(0,' ');
+        _delay_ms(5);
+         writeCharToSegment(1,' ');
+        _delay_ms(5);
+         writeCharToSegment(2,' ');
+        _delay_ms(5);
+         writeCharToSegment(3,' ');
+        _delay_ms(5);
+      }
+ 
+      
+        for(int i = 0; i <15; i++){
+        writeCharToSegment(0,' ');
+        _delay_ms(5);
+         writeCharToSegment(1,' ');
+        _delay_ms(5);
+         writeCharToSegment(2,' ');
+        _delay_ms(5);
+         writeCharToSegment(3,'a');
+        _delay_ms(5);
+      }
+ 
+              for(int i = 0; i <15; i++){
+        writeCharToSegment(0,' ');
+        _delay_ms(5);
+         writeCharToSegment(1,' ');
+        _delay_ms(5);
+         writeCharToSegment(2,'a');
+        _delay_ms(5);
+         writeCharToSegment(3,'r');
+        _delay_ms(5);
+      }
+ 
+ 
+        for(int i = 0; i <15; i++){
+        writeCharToSegment(0,' ');
+        _delay_ms(5);
+         writeCharToSegment(1,'a');
+        _delay_ms(5);
+         writeCharToSegment(2,'r');
+        _delay_ms(5);
+         writeCharToSegment(3,'m');
+        _delay_ms(5);
+      }
+ 
+        for(int i = 0; i <15; i++){
         writeCharToSegment(0,'a');
         _delay_ms(5);
          writeCharToSegment(1,'r');
@@ -158,19 +227,66 @@ for(int i = 0; i <40; i++){
         _delay_ms(5);
          writeCharToSegment(3,'e');
         _delay_ms(5);
-    
-}
-for(int i = 0; i <40; i++){
+      }
+ 
+ 
+        for(int i = 0; i <15; i++){
+        writeCharToSegment(0,'r');
+        _delay_ms(5);
+         writeCharToSegment(1,'m');
+        _delay_ms(5);
+         writeCharToSegment(2,'e');
+        _delay_ms(5);
+         writeCharToSegment(3,'d');
+        _delay_ms(5);
+      }
+ 
+      
+        for(int i = 0; i <15; i++){
+        writeCharToSegment(0,'m');
+        _delay_ms(5);
+         writeCharToSegment(1,'e');
+        _delay_ms(5);
+         writeCharToSegment(2,'d');
+        _delay_ms(5);
+         writeCharToSegment(3,' ');
+        _delay_ms(5);
+      }
+ 
+              for(int i = 0; i <15; i++){
         writeCharToSegment(0,'e');
         _delay_ms(5);
          writeCharToSegment(1,'d');
         _delay_ms(5);
          writeCharToSegment(2,' ');
         _delay_ms(5);
-         writeCharToSegment(3,' ');
+         writeCharToSegment(3,'b');
         _delay_ms(5);
-    }
-    for(int i = 0; i <40; i++){
+      }
+ 
+              for(int i = 0; i <15; i++){
+        writeCharToSegment(0,'d');
+        _delay_ms(5);
+         writeCharToSegment(1,' ');
+        _delay_ms(5);
+         writeCharToSegment(2,'b');
+        _delay_ms(5);
+         writeCharToSegment(3,'a');
+        _delay_ms(5);
+      }
+ 
+              for(int i = 0; i <15; i++){
+        writeCharToSegment(0,' ');
+        _delay_ms(5);
+         writeCharToSegment(1,'b');
+        _delay_ms(5);
+         writeCharToSegment(2,'a');
+        _delay_ms(5);
+         writeCharToSegment(3,'n');
+        _delay_ms(5);
+      }
+ 
+for(int i = 0; i <15; i++){
         writeCharToSegment(0,'b');
         _delay_ms(5);
          writeCharToSegment(1,'a');
@@ -179,18 +295,40 @@ for(int i = 0; i <40; i++){
         _delay_ms(5);
          writeCharToSegment(3,'d');
         _delay_ms(5);
+    
+}
+for(int i = 0; i <15; i++){
+        writeCharToSegment(0,'a');
+        _delay_ms(5);
+         writeCharToSegment(1,'n');
+        _delay_ms(5);
+         writeCharToSegment(2,'d');
+        _delay_ms(5);
+         writeCharToSegment(3,'i');
+        _delay_ms(5);
+    }
+    for(int i = 0; i <50; i++){
+        writeCharToSegment(0,'n');
+        _delay_ms(5);
+         writeCharToSegment(1,'d');
+        _delay_ms(5);
+         writeCharToSegment(2,'i');
+        _delay_ms(5);
+         writeCharToSegment(3,'t');
+        _delay_ms(5);
     }
     for(int i = 0; i <40; i++){
-        writeCharToSegment(0,'i');
+        writeCharToSegment(0,' ');
         _delay_ms(5);
-         writeCharToSegment(1,'t');
+         writeCharToSegment(1,' ');
         _delay_ms(5);
          writeCharToSegment(2,' ');
         _delay_ms(5);
          writeCharToSegment(3,' ');
         _delay_ms(5);
     }
-    for(int i = 0; i <40; i++){
+ 
+    for(int i = 0; i <80; i++){
         writeCharToSegment(0,' ');
         _delay_ms(5);
         writeCharToSegment(1,'H');
@@ -202,6 +340,7 @@ for(int i = 0; i <40; i++){
         
     }
 }
+
 
 void rollOnDisplay(){
     for(int i = 0; i <50; i++){

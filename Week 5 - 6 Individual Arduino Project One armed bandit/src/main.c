@@ -260,7 +260,7 @@ void checkWin(GameState *state, int slotCount) {
     displayCoins(state->coins); // Update coin display
 }
 
- 
+
 int main() {
     // Initialization
     initADC();//initialise potentio
