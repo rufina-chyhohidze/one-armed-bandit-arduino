@@ -1,5 +1,3 @@
-//TODO:EXPAND THE README FILE
-
 //at first including each library,that i will use in this project.
 #define __DELAY_BACKWARD_COMPATIBLE__
 #include <avr/io.h>
@@ -132,12 +130,7 @@ void lossSound() {
         _delay_ms(50); // Wait 50 ms between the notes
     }
 }
- 
- 
-void initGame() {
-    // I plan to initialize LEDs, buttons, etc. in this function
-}
- 
+  
 // Function to print rules of the game to the serial monitor,used 200ms of delay for better readability.
 void printGameRules() {
     printf("\nPlace your bet: Press the right button once to bet 1 coin per turn. LED displays light up, and a sound signifies the bet.\r\n");
@@ -265,7 +258,6 @@ int main() {
     // Initialization
     initADC();//initialise potentio
     initUSART(); // communication with my PC over the serial port (USB cable).
-    initGame();
     initDisplay();//initialise display
     initTimer(); //enables timer routine and ISR
     int value = potentioMeterNumber(); //read value from potentio,and use it for random generated numbers.

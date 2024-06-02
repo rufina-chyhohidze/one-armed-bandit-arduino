@@ -36,7 +36,7 @@ time.h: Standard library for time and date operations
 -----------------------------------------------------------------------------------------------------
 Definitions
 Several constants and definitions are used throughout the program:
-*Pins connected to LEDs, buttons, and the buzzer
+*Pins connected to LEDs, buttons, potentiometer and the buzzer
 *Initial and maximum number of coins
 *Coin rewards for winning combinations
 *Note frequencies and duration for sound effects
@@ -46,14 +46,18 @@ initTimer(): Initializes Timer0 with a prescaler of 1024 and enables overflow in
 ISR(TIMER0_OVF_vect): Interrupt service routine for Timer0 overflow, increments the game time in seconds.
 -----------------------------------------------------------------------------------------------------
 Gameplay Functions:
-*displayGameTime(): Displays the total game time in seconds.
-*victorySound() and lossSound(): Functions to play victory and loss sounds respectively.
-*initGame(): Initializes game components such as LEDs, buttons, etc.
-*printGameRules(): Prints game rules to the serial monitor.
-*displayCoins(coins): Displays the current number of coins.
-*displayRandomNumbers(slotCount): Generates random numbers and displays them on the screen, checks for win combinations.
-*checkGameOver(): Checks if the game is over due to insufficient coins or reaching the maximum coin *limit.
-*checkWin(numbers, slotCount): Checks if the player has won based on the displayed numbers.
+displayGameTime(): Displays the total game time in seconds.
+victorySound() and lossSound(): Functions to play victory and loss sounds respectively.
+initGame(): Initializes game components such as LEDs, buttons, etc.
+printGameRules(): Prints game rules to the serial monitor.
+displayCoins(int coins): Displays the current number of coins.
+displayRandomNumbers(GameState *state, int slotCount): Generates random numbers and displays them on the screen, checks for win combinations.
+checkGameOver(GameState *state): Checks if the game is over due to insufficient coins or reaching the maximum coin limit.
+checkWin(GameState *state, int slotCount): Checks if the player has won based on the displayed numbers.
+-----------------------------------------------------------------------------------------------------
+Game State Management
+GameState* initGameState(int slotCount): Initializes and allocates memory for the game state.
+void freeGameState(GameState *state): Frees the memory allocated for the game state.
 -----------------------------------------------------------------------------------------------------
 Main Function:
 main() function:
@@ -78,3 +82,24 @@ freeGameState function:
 It first checks if the provided state pointer is not NULL.
 Frees the memory allocated for the displayValues array using free.
 Frees the memory allocated for the GameState structure itself using free.
+----------------------------------------------------------------------------------------------------
+Additional Functions and Notes
+initADC(): Initializes the ADC for the potentiometer.
+initUSART(): Initializes USART for serial communication.
+initDisplay(): Initializes the display.
+writeWelcomeToTheUserOnDisplay(): Displays a welcome message on the display.
+rollOnDisplay(): Displays a rolling animation on the display.
+lightUpMultipleLeds(uint8_t pattern): Lights up LEDs based on the provided pattern.
+lightDownAllLeds(): Turns off all LEDs.
+writeCharToSegment(int segment, char character): Writes a character to a specific segment of the display.
+writeNumberToSegment(int segment, int number): Writes a number to a specific segment of the display.
+----------------------------------------------------------------------------------------------------
+Usage Instructions
+Setup: Connect the microcontroller with the required hardware components such as LEDs, buttons, buzzer, and display.
+Initialization: Load the program onto the microcontroller and power it on.
+Gameplay:
+Follow the printed game rules to place bets and start the slot machine.
+Press the buttons to choose the number of slots and start the game.
+Watch the display for the results and listen for sound effects indicating wins or losses.
+Monitor the coin count on the display and play until you either run out of coins or reach the maximum coin limit.
+Enjoy the One Armed Bandit game and may luck be on your side!
