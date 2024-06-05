@@ -1,46 +1,80 @@
+Nim.
 
-This directory is intended for project specific (private) libraries.
-PlatformIO will compile them to static libraries and link into executable file.
+How to Play:
+-------------------------------------------------------------------------------
+Press button 1 to start the game.
+During your turn, use buttons 1 and 2 to select the number of matches to remove.
+Press button 1 to confirm your move.
+Wait for the LED display to update and show the current game status.
+Wait for the computer's turn.
+Repeat steps 2-5 until the game ends.
+The winner (Player or Computer) will be displayed on the LED display.
+Game Progress:
+The game progress is displayed on the LED display and serial monitor. Each turn shows:
 
-The source code of each library should be placed in an own separate directory
-("lib/your_library_name/[here are source files]").
+Removal Count: Number of matches removed in the current turn.
+Player Turn: Indicates whether it's the human player's or computer's turn.
+Remaining Matches: Number of matches remaining in the pile.
+Memory Management:
+The game logs are stored in dynamic memory using malloc and realloc functions. Memory is allocated dynamically to accommodate the growing number of game logs as the game progresses.
+----------------------------------------------------------------------------------
+Overview of Methods:
 
-For example, see a structure of the following two libraries `Foo` and `Bar`:
+startMatch():
 
-|--lib
-|  |
-|  |--Bar
-|  |  |--docs
-|  |  |--examples
-|  |  |--src
-|  |     |- Bar.c
-|  |     |- Bar.h
-|  |  |- library.json (optional, custom build options, etc) https://docs.platformio.org/page/librarymanager/config.html
-|  |
-|  |--Foo
-|  |  |- Foo.c
-|  |  |- Foo.h
-|  |
-|  |- README --> THIS FILE
-|
-|- platformio.ini
-|--src
-   |- main.c
+This method initiates the game by waiting for the start button press.
+ It continuously checks for button press until the start button is pressed.
+ Used at the beginning of the game to start the match.
 
-and a contents of `src/main.c`:
-```
-#include <Foo.h>
-#include <Bar.h>
+determineFirstPlayer():
+ Determines the first player randomly.
+ Generates a random number and assigns 'p' for player or 'c' for computer based on the result.
+ Used to decide which player starts the game.
 
-int main (void)
-{
-  ...
-}
+ISR(PCINT1_vect):
 
-```
+Interrupt Service Routine for handling button presses.
+ Detects button presses and adjusts the game state accordingly.
+ Used to handle player inputs during the game.
 
-PlatformIO Library Dependency Finder will find automatically dependent
-libraries scanning project source files.
+initializeGame():
 
-More information about PlatformIO Library Dependency Finder
-- https://docs.platformio.org/page/librarymanager/ldf.html
+ Initializes the game components and sets up the environment.
+ Initializes USART, display, ADC, and enables buttons. Allocates memory for game logs.
+ Called at the beginning of the program to set up the game environment.
+
+handleMatchUpdate(int count):
+
+ Updates the match count and checks for game completion.
+ Subtracts the count from remaining matches and ensures it doesn't go below 1.
+ Used to update the match count during each turn.
+
+logProgress(int turn, char player, int removed, int remaining):
+
+ Logs the progress of each turn in the game.
+ Stores the turn number, player, number of matches removed, and remaining matches in the game logs array.
+ Used to record the progress of the game for analysis or debugging purposes.
+
+showWinner(char winner):
+
+ Displays the winner of the game on the LED display.
+ Displays 'GOOD' if the player wins and 'LOSS' if the computer wins.
+ Called at the end of the game to announce the winner.
+
+displayCurrentStatus():
+
+ Displays the current game status on the LED display.
+ Writes the removal count, player turn, and remaining matches 
+ to the LED display.
+ Used to show the current game status during each turn.
+updateDisplay():
+
+Updates the LED display with the current game status.
+ Writes the removal count, player turn, and remaining matches to the LED display.
+Called after each turn to update the display with the latest game status.
+
+main():
+Functionality: Initializes the game, enables interrupts, and enters the game loop. Handles player turns and game progression.
+Usage: Executes the game logic and controls the flow of the program.
+-------------------------------------------------------------------------------------------------
+Enjoy!
