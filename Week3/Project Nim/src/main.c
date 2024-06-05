@@ -34,6 +34,7 @@ GameLog *gameLogs;
 int logCount = 0;
 int logCapacity = 10;
 
+//rotate the potentio,read the value and implement in the game.Waits until the button is pressed.
 void startMatch() {
     uint8_t startPressed = 0;
     while (startPressed == 0) {
@@ -49,10 +50,12 @@ void startMatch() {
     }
 }
 
+//generates random player to start
 char determineFirstPlayer() {
     return (rand() % 2 == 1) ? 'p' : 'c';
 }
 
+//handles button press and adjust the game states accordingly.
 ISR(PCINT1_vect) {
     if (buttonPushed(0) && playerTurn == 'p') {
         _delay_us(1000);
@@ -103,6 +106,7 @@ void initializeGame() {
     enableButton(1);
     enableButton(2);
 
+//allocates memory for gameLogs
     gameLogs = (GameLog*) calloc(logCapacity, sizeof(GameLog));
     playerTurn = determineFirstPlayer();
     startMatch();
@@ -112,11 +116,13 @@ void initializeGame() {
     sei();
 }
 
+//updates the match count and checks that it not goes bellow 1.
 void handleMatchUpdate(int count) {
     remainingMatches -= count;
     if (remainingMatches < 1) remainingMatches = 1;
 }
 
+//logs the progress of each game,and stores the following variables.
 void logProgress(int turn, char player, int removed, int remaining) {
     if (logCount >= logCapacity) {
         logCapacity *= 2;
