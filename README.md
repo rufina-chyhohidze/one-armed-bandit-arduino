@@ -1,0 +1,228 @@
+README INFRASTRUCTURE 2 ACS104A Chyhohidze Rufina
+
+During the Infrastructure 2 I completed the following:
+
+* Created libraries in a folder Libraries and used it during 6 weeks.
+This libraries consists of: buttons,led,display,potentio,buzzer.
+Here is the overview of functions I have in my libraries taken from .h :
+==========================================================================
+ - Buttons:
+void enableButton( int button ); 
+int buttonPushed( int button ); 
+int buttonReleased( int button );
+
+void enableAllButtons();
+
+void enableButtonInterrupt(int button); 
+void enableAllButtonInterrupts(void);
+===========================================================================
+-leds:
+void enabledLed(int);
+void enableMultipleLeds(uint8_t leds); 
+void enableAllLeds ();
+void lightUpLed(int); 
+void lightUpMultipleLeds (uint8_t leds);
+void lightUpAllLeds (); 
+void lightDownLed(int); 
+void lightDownMultipleLeds (uint8_t leds);
+void lightDownAllLeds (); 
+void lightToggleOneLed(int);
+void fadeInLed(int, long);
+void fadeOutLed(int, long);
+void dimLed(int, int, long);
+void blinkLEDs(int count);
+==========================================================================
+-buzzer:
+void enableBuzzer();
+void disableBuzzer();
+void playTones(float frequency, uint32_t duration);
+void playMusic(float *notes, uint32_t *durations, uint8_t numNotes);
+void custom_delay_us(uint32_t us);
+==========================================================================
+display:
+
+void initDisplay();
+void writeNumberToSegment(uint8_t segment, uint8_t value);
+void writeNumber(int number);
+void writeNumberAndWait(int number, int delay);
+void  writeCharToSegment( uint8_t  segment,  char character); 
+void  writeString( const char* str); 
+void  writeStringAndWait( const char*  str,  int  delay);
+void blankSegment(uint8_t segment);
+void clearDisplay();
+void writeWelcomeToTheUserOnDisplay();
+void rollOnDisplay();
+==========================================================================
+potentio:
+
+void initADC();
+int potentioMeterNumber();
+==========================================================================
+During Week 1 I have made the following exercises, which mostly covered the interaction with LED's:
+..
+Project 1.13 LED Chaos	my random p.1
+Project 1	playing with leds
+Project 1_12 Dimmed LEDs	
+Project1_10 Flashing LEDs	
+Project1_4Writing to a pin	Writing a pin(blinking LED)
+Project1_8 Blinking Led
+==========================================================================
+During week 2 I have made the following exercises, which covered and explained the interaction with buttons, interrupts,pointers,macro's:
+..
+2.7.3 Timing and Chronology of the ISRs	questions for 2.7.3
+Led 3 colors 2.7.4	
+Morse trainer
+Project 2.3.1 Input from Buttons	
+Project 2.5.1 Pointers	
+Project 2.6.1 Interrupts and Buttons	
+Project 2.7.1 Button press and release	
+Project 2.7.4 Combine LED and buttons	
+
+Week 2 projects:
+Morse trainer
+Project Simon Say
+===========================================================================	
+During week 3 I have made the following exercises, which covered interaction with display, and potentiometer as well as C memory allocation:
+..
+Example of code.Potentiometer	
+Potentiometer- free run mode	
+Project Alphabet on Display	
+Project Display1.0	writes a 4 digit number in loop
+Project Potentiometer on Display with buttons	
+Project Potentiometer on Display	
+Project Writing lines p1	
+Project scrolling numbers	
+Project writeLinesOnHeap	
+
+Week 3 project:
+Project Nim	
+============================================================================
+During week 4 I have made the following exercises, which covered interaction with timers, and sounds as well as C memory allocation with structs:
+..
+4.2.2 Music	
+4.6.1 synthesizer
+4.6.2 Mozart	
+C-structure	C structure,objects,pointers
+Demo Timer 4.5.1	
+Demo buzzer	C D E C twice, followed by E F G once
+Dynamic structures_calloc_malloc	
+Timer and display	
+============================================================================
+Project is located in my root directory and called:
+Week 5 - 6 Individual Arduino Project One armed bandit
+
+Week 5 and 6 I was working on my project One Armed bandit, and here I tried to implement everything what we learned, I did a README file in the folder of my project, in lib directory with the broad explanation of functions I used and how the game is actually works.
+ Here is it as well:
+
+ One Armed Bandit Game README
+
+Introduction
+Welcome to the One Armed Bandit game! This is a simple slot machine game implemented on an AVR microcontroller. Players can place bets and spin the reels to win coins. This README provides an overview of the game structure, libraries used, definitions, initialization steps, gameplay functions, and usage instructions.
+-----------------------------------------------------------------------------------------------------
+Game rules:
+
+! Place your bet: Press the right button once to bet 1 coin per turn. LED displays light up, and a sound signifies the bet.
+
+! Activate the slot machine: Press the right button again to start the game. Watch as random numbers appear 
+and jump on the displays.
+
+! Win big: If all displays show the same number, hear the victory sound and win coins! Win 5 for 2 displays, 50 for 3, or 500 for 4.
+
+! Game over: Lose all your coins, and the game stops with a loss message. Reach 9999 coins, and the game ends with a "bank break" message.
+----------------------------------------------------------------------------------------------------
+Game Structure
+The game consists of a slot machine interface with buttons for selecting the number of slots to play (2, 3, or 4) and a display to show the results. Players place bets, spin the reels, and win coins for matching combinations of numbers on the slots. The game ends when the player runs out of coins or reaches the maximum coin limit.
+-----------------------------------------------------------------------------------------------------
+Libraries Used:
+The program utilizes various libraries to interface with hardware components and perform tasks such as delay generation, serial communication, and interrupt handling:
+
+avr/io.h: AVR standard IO library for I/O port definitions
+avr/interrupt.h: AVR interrupt handling library for managing interrupts
+util/delay.h: AVR delay library for generating delays
+stdio.h: Standard Input/Output library for formatted input/output operations
+stdlib.h: Standard library for general utilities
+potentio.h: Custom library for interfacing with a potentiometer
+led.h: Custom library for controlling LEDs
+buttons.h: Custom library for handling buttons
+buzzer.h: Custom library for controlling a buzzer
+display.h: Custom library for controlling a display
+usart.h: Custom library for USART communication
+string.h: Standard library for string operations
+time.h: Standard library for time and date operations
+-----------------------------------------------------------------------------------------------------
+Definitions
+Several constants and definitions are used throughout the program:
+*Pins connected to LEDs, buttons, potentiometer and the buzzer
+*Initial and maximum number of coins
+*Coin rewards for winning combinations
+*Note frequencies and duration for sound effects
+-----------------------------------------------------------------------------------------------------
+Initialization
+initTimer(): Initializes Timer0 with a prescaler of 1024 and enables overflow interrupt. This timer is used to track the game time.
+ISR(TIMER0_OVF_vect): Interrupt service routine for Timer0 overflow, increments the game time in seconds.
+-----------------------------------------------------------------------------------------------------
+Gameplay Functions:
+displayGameTime(): Displays the total game time in seconds.
+victorySound() and lossSound(): Functions to play victory and loss sounds respectively.
+initGame(): Initializes game components such as LEDs, buttons, etc.
+printGameRules(): Prints game rules to the serial monitor.
+displayCoins(int coins): Displays the current number of coins.
+displayRandomNumbers(GameState *state, int slotCount): Generates random numbers and displays them on the screen, checks for win combinations.
+checkGameOver(GameState *state): Checks if the game is over due to insufficient coins or reaching the maximum coin limit.
+checkWin(GameState *state, int slotCount): Checks if the player has won based on the displayed numbers.
+-----------------------------------------------------------------------------------------------------
+Game State Management
+GameState* initGameState(int slotCount): Initializes and allocates memory for the game state.
+void freeGameState(GameState *state): Frees the memory allocated for the game state.
+-----------------------------------------------------------------------------------------------------
+Main Function:
+main() function:
+*Initializes the game and necessary components.
+*Prints the welcome message and game rules as well as current amount of money user have and the total
+game play time in the end of the program.
+*Enters an infinite loop where the player can choose the number of slots to play.
+*Handles button presses, deducts coins for bets, generates random numbers, checks for wins, and *updates the game state accordingly.
+-----------------------------------------------------------------------------------------------------
+initGameState function:
+
+It allocates memory for the GameState structure using malloc.
+Checks if the memory allocation was successful. If not, it prints an error message and exits the program.
+Initializes the coins member of the GameState structure to the starting amount defined as START_COINS.
+Allocates memory for the displayValues array based on the number of slots (slotCount) multiplied by the size of an integer.
+Checks if the memory allocation for displayValues was successful. If not, it prints an error message, frees the previously allocated memory, and exits the program.
+Initializes each element of the displayValues array to 0.
+Finally, it returns a pointer to the initialized GameState structure.
+
+freeGameState function:
+
+It first checks if the provided state pointer is not NULL.
+Frees the memory allocated for the displayValues array using free.
+Frees the memory allocated for the GameState structure itself using free.
+----------------------------------------------------------------------------------------------------
+Additional Functions and Notes
+initADC(): Initializes the ADC for the potentiometer.
+initUSART(): Initializes USART for serial communication.
+initDisplay(): Initializes the display.
+writeWelcomeToTheUserOnDisplay(): Displays a welcome message on the display.
+rollOnDisplay(): Displays a rolling animation on the display.
+lightUpMultipleLeds(uint8_t pattern): Lights up LEDs based on the provided pattern.
+lightDownAllLeds(): Turns off all LEDs.
+writeCharToSegment(int segment, char character): Writes a character to a specific segment of the display.
+writeNumberToSegment(int segment, int number): Writes a number to a specific segment of the display.
+----------------------------------------------------------------------------------------------------
+Usage Instructions
+Setup: Connect the microcontroller with the required hardware components such as LEDs, buttons, buzzer, and display.
+Initialization: Load the program onto the microcontroller and power it on.
+Gameplay:
+Follow the printed game rules to place bets and start the slot machine.
+Press the buttons to choose the number of slots and start the game.
+Watch the display for the results and listen for sound effects indicating wins or losses.
+Monitor the coin count on the display and play until you either run out of coins or reach the maximum coin limit.
+Enjoy the One Armed Bandit game and may luck be on your side!
+
+
+
+
+
+
+

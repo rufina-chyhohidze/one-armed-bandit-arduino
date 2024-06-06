@@ -67,6 +67,7 @@ displayCurrentStatus():
  Writes the removal count, player turn, and remaining matches 
  to the LED display.
  Used to show the current game status during each turn.
+ 
 updateDisplay():
 
 Updates the LED display with the current game status.
