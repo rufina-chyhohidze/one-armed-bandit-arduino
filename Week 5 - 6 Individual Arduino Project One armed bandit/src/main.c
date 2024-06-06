@@ -26,8 +26,8 @@
 #define BUTTON3 PC3
  
 //using macro's to express the constant values
-#define START_COINS 10 //i decreased start coins, to play faster for a moment.
-#define MAX_COINS 10
+#define START_COINS 50 //i decreased start coins, to play faster for a moment.
+#define MAX_COINS 9999
 #define WIN_AMOUNT_2 5
 #define WIN_AMOUNT_3 50
 #define WIN_AMOUNT_4 500
@@ -53,18 +53,19 @@ int coins = START_COINS;
 volatile unsigned long gameTimeSeconds = 0;
  
 typedef struct {
-    int sequence;
-    int coins;
-    int wager;
-    int *displayValues;
-    int winAmount;
+    int sequence; //this is used to track the sequence number of the game.
+    int coins; //this represents the number of coins the player currently has.
+    int wager; //this represents the amount of coins the player has wagered in the current turn.
+    int *displayValues; // this is a pointer to an array of integers, which represent the values to be displayed.
+    int winAmount; //this represents the amount of coins the player has won in the current game or round.
 } GameState;
 
+//this function is responsible for allocating and initializing a new GameState structure.
 GameState* initGameState(int slotCount) {
-    GameState *state = (GameState *)malloc(sizeof(GameState));
-    if (state == NULL) {
+    GameState *state = (GameState *)malloc(sizeof(GameState)); // this allocates memory for a new GameState structure and casts the result of malloc to a GameState pointer. 
+    if (state == NULL) { // this checks if the memory allocation was successful
         // handling memory allocation failure
-        printf("Memory allocation failed\n");
+        printf("Memory allocation failed\n"); //if malloc return null
         exit(1);
     }
     state->coins = START_COINS; // initialize coins to START_COINS
@@ -133,9 +134,9 @@ void lossSound() {
   
 // Function to print rules of the game to the serial monitor,used 200ms of delay for better readability.
 void printGameRules() {
-    printf("\nPlace your bet: Press the right button once to bet 1 coin per turn. LED displays light up, and a sound signifies the bet.\r\n");
+    printf("\nPlace your bet: Press the left button once to bet 1 coin per turn. LED displays light up, and you ready to bet!\r\n");
     _delay_ms(200);
-    printf("\nActivate the slot machine: Press the right button again to start the game. Watch as random numbers appear and jump on the displays.\r\n");
+    printf("\nActivate the slot machine: Press the left button again to start the game. Watch as random numbers appear and jump on the displays.\r\n");
     _delay_ms(200);
     printf("\nWin big: If all displays show the same number, hear the victory sound and win coins! Win 5 for 2 displays, 50 for 3, or 500 for 4.\r\n");
     _delay_ms(200);
@@ -223,8 +224,6 @@ void checkGameOver(GameState *state) {
         while (1) {
            //shows winning 7777!!!
             writeNumber(7777);
-           
-           
         }
     }
 }
@@ -354,3 +353,5 @@ int main() {
     return 0;
  
 }
+
+//I used chatGpt to generate the frequncies for win and loss sounds.

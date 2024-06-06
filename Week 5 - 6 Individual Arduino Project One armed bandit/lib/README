@@ -5,9 +5,9 @@ Welcome to the One Armed Bandit game! This is a simple slot machine game impleme
 -----------------------------------------------------------------------------------------------------
 Game rules:
 
-! Place your bet: Press the right button once to bet 1 coin per turn. LED displays light up, and a sound signifies the bet.
+! Place your bet: Press the left button once to bet 1 coin per turn. LED displays light up, and you ready to bet.
 
-! Activate the slot machine: Press the right button again to start the game. Watch as random numbers appear 
+! Activate the slot machine: Press the left button again to start the game. Watch as random numbers appear 
 and jump on the displays.
 
 ! Win big: If all displays show the same number, hear the victory sound and win coins! Win 5 for 2 displays, 50 for 3, or 500 for 4.
